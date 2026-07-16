@@ -6,7 +6,6 @@
     <title>Scary Budget</title>
     <link rel="manifest" href="manifest.json">
     <style>
-        /* Minimal, clean layout */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,100 +14,197 @@
         }
 
         body {
-            background-color: #ffffff;
+            background-color: #f8fafc;
             color: #1e293b;
-            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            padding-bottom: 90px; /* Space for sticky footer */
         }
 
         header {
             width: 100%;
             max-width: 600px;
-            margin-bottom: 30px;
+            background-color: #ffffff;
+            padding: 20px 16px 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .selector-container {
-            width: 100%;
-        }
-
-        .category-select {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            background-color: #f8fafc;
             color: #0f172a;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        /* Scrollable Top Tab Bar */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .tab-bar::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .tab-btn {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
             cursor: pointer;
-            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background-color: #1e293b;
+            color: #ffffff;
+            border-color: #1e293b;
         }
 
         main {
             width: 100%;
             max-width: 600px;
+            padding: 16px;
             flex-grow: 1;
         }
 
-        .category-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-transform: capitalize;
-            border-bottom: 2px solid #e2e8f0;
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
             padding-bottom: 8px;
+            border-bottom: 2px solid #cbd5e1;
         }
 
-        /* Clean data list canvas */
+        .tab-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .tab-subtotal {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #2563eb;
+            background-color: #eff6ff;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
         .data-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
-        .data-item {
-            background-color: #f8fafc;
+        .data-card {
+            background-color: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
-        .data-item-front {
-            font-size: 1.1rem;
+        .card-header {
+            font-size: 1rem;
             font-weight: 600;
             color: #0f172a;
-            margin-bottom: 4px;
+            margin-bottom: 10px;
         }
 
-        .data-item-back {
-            font-size: 0.95rem;
-            color: #475569;
+        .card-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr;
+            gap: 8px;
+            align-items: center;
         }
 
-        .status-message {
-            font-style: italic;
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 0.9rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background-color: #f8fafc;
+            color: #0f172a;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #2563eb;
+            background-color: #ffffff;
+        }
+
+        .daily-output {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .daily-label {
+            font-size: 0.75rem;
             color: #64748b;
         }
 
-        /* Minimal Version Badge */
+        .daily-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #16a34a;
+        }
+
+        /* Sticky Grand Total Footer */
         footer {
+            position: fixed;
+            bottom: 0;
             width: 100%;
             max-width: 600px;
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #f1f5f9;
-            font-size: 0.85rem;
-            color: #94a3b8;
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+        .footer-label {
+            font-size: 0.9rem;
             font-weight: 500;
+            color: #94a3b8;
+        }
+
+        .footer-total {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #4ade80;
         }
     </style>
 </head>
@@ -116,84 +212,213 @@
 
     <header>
         <h1>Scary Budget</h1>
-        <div class="selector-container">
-            <select id="categorySelect" class="category-select" onchange="switchCategory(this.value)">
-                <option value="colors">🎨 Colors</option>
-                <option value="shapes">📐 Shapes</option>
-            </select>
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
+            <button class="tab-btn" onclick="switchTab('lunch_supper')">🍲 Lunch & Supper</button>
+            <button class="tab-btn" onclick="switchTab('rent_household')">🏠 Rent & Household</button>
+            <button class="tab-btn" onclick="switchTab('school_fees')">📚 School Fees</button>
+            <button class="tab-btn" onclick="switchTab('other')">🧩 Other</button>
         </div>
     </header>
 
     <main>
-        <h2 id="categoryTitle" class="category-title">Loading...</h2>
-        <div id="dataDisplayCanvas" class="data-list">
-            <p class="status-message">Connecting to data stream...</p>
+        <div class="tab-header">
+            <h2 id="tabTitle" class="tab-title">Breakfast & Snacks</h2>
+            <div id="tabSubtotal" class="tab-subtotal">0 Shs/day</div>
         </div>
+        <div id="dataCanvas" class="data-list"></div>
     </main>
 
     <footer>
-        App Version: v1.1-Standalone
+        <div class="footer-label">Grand Daily Total:</div>
+        <div id="grandTotal" class="footer-total">0 Shs / day</div>
     </footer>
 
     <script>
-        // 1. Define your content locally
-        const masterDatabase = {
-            colors: [
-                { front: "Red", back: "Sample description" },
-                { front: "Blue", back: "Sample description" }
+        // Default seed database constructed from Excel import
+        const defaultDatabase = {
+            breakfast_snacks: [
+                { item: "Tea leaves", cost: 200, days: 7 },
+                { item: "Ginger", cost: 100, days: 1 },
+                { item: "Cinnamon", cost: 0, days: 1 },
+                { item: "Sugar", cost: 4000, days: 7 },
+                { item: "Milk", cost: 2000, days: 1 },
+                { item: "Porridge Flour", cost: 0, days: 1 },
+                { item: "Water", cost: 0, days: 1 },
+                { item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { item: "Match box", cost: 200, days: 10 },
+                { item: "Pancakes", cost: 700, days: 1 },
+                { item: "Bread", cost: 0, days: 1 },
+                { item: "Bread buns", cost: 0, days: 1 },
+                { item: "Boiled or fried cassava", cost: 0, days: 1 },
+                { item: "Mandazi", cost: 0, days: 1 },
+                { item: "Samosas", cost: 0, days: 1 },
+                { item: "Potato chips", cost: 0, days: 1 },
+                { item: "Rice balls", cost: 0, days: 1 },
+                { item: "Pop corn", cost: 0, days: 1 },
+                { item: "Maize", cost: 0, days: 1 },
+                { item: "Chapatti", cost: 0, days: 1 }
             ],
-            shapes: [
-                { front: "Circle", back: "Sample description" }
+            lunch_supper: [
+                { item: "Lunch - Cassava", cost: 0, days: 1 },
+                { item: "Lunch - Posho", cost: 0, days: 1 },
+                { item: "Lunch - Matooke", cost: 0, days: 1 },
+                { item: "Lunch - Rice", cost: 0, days: 1 },
+                { item: "Lunch - Sweet Potatoes", cost: 0, days: 1 },
+                { item: "Lunch - Beans", cost: 0, days: 1 },
+                { item: "Lunch - Fish", cost: 0, days: 1 },
+                { item: "Lunch - Meat", cost: 0, days: 1 },
+                { item: "Lunch - Silver Fish", cost: 0, days: 1 },
+                { item: "Lunch - Eggplants", cost: 0, days: 1 },
+                { item: "Lunch - Cabbage", cost: 0, days: 1 },
+                { item: "Lunch - Greens (Nakati/Sukuma)", cost: 0, days: 1 },
+                { item: "Lunch - Cooking Oil & Spices", cost: 0, days: 1 },
+                { item: "Supper - Cassava", cost: 0, days: 1 },
+                { item: "Supper - Posho", cost: 0, days: 1 },
+                { item: "Supper - Matooke", cost: 0, days: 1 },
+                { item: "Supper - Rice", cost: 0, days: 1 },
+                { item: "Supper - Beans", cost: 0, days: 1 },
+                { item: "Supper - Fish / Meat", cost: 0, days: 1 },
+                { item: "Supper - Cooking Fuel / Water", cost: 0, days: 1 }
+            ],
+            rent_household: [
+                { item: "House Rent", cost: 0, days: 30 },
+                { item: "Soap (Household cleaning)", cost: 0, days: 30 },
+                { item: "Soap (Body cleaning)", cost: 0, days: 30 },
+                { item: "Clothes", cost: 0, days: 30 },
+                { item: "Body jelly", cost: 0, days: 30 },
+                { item: "Toilet paper", cost: 0, days: 30 },
+                { item: "Water", cost: 0, days: 30 },
+                { item: "Umeme / Light / Paraffin", cost: 0, days: 30 }
+            ],
+            school_fees: [
+                { item: "Child 1 - Fees", cost: 0, days: 120 },
+                { item: "Child 1 - Requirements & Books", cost: 0, days: 120 },
+                { item: "Child 2 - Fees", cost: 0, days: 120 },
+                { item: "Child 2 - Requirements & Books", cost: 0, days: 120 },
+                { item: "Child 3 - Fees", cost: 0, days: 120 },
+                { item: "Child 3 - Requirements & Books", cost: 0, days: 120 },
+                { item: "Child 4 - Fees", cost: 0, days: 120 },
+                { item: "Child 4 - Requirements & Books", cost: 0, days: 120 }
+            ],
+            other: [
+                { item: "Transport - Boda boda", cost: 0, days: 1 },
+                { item: "Transport - Taxi", cost: 0, days: 1 },
+                { item: "Medical Reserve", cost: 0, days: 120 },
+                { item: "Church - Offertories & Tithe", cost: 0, days: 7 }
             ]
         };
 
-        const categorySelect = document.getElementById('categorySelect');
-        const categoryTitle = document.getElementById('categoryTitle');
-        const dataDisplayCanvas = document.getElementById('dataDisplayCanvas');
+        let masterDatabase = {};
+        let currentTabKey = "breakfast_snacks";
 
-        // 2. Initialize directly without network requests
-        function initializeApp() {
-            const initialCategory = categorySelect.value.toLowerCase();
-            switchCategory(initialCategory);
-        }
+        const tabTitleMap = {
+            breakfast_snacks: "Breakfast & Snacks",
+            lunch_supper: "Lunch & Supper",
+            rent_household: "Rent & Household",
+            school_fees: "School Fees",
+            other: "Other (Transport, Med, Church)"
+        };
 
-        function switchCategory(categoryKey) {
-            const targetKey = categoryKey.toLowerCase();
-            categoryTitle.textContent = targetKey;
-            
-            if (!masterDatabase[targetKey] || masterDatabase[targetKey].length === 0) {
-                dataDisplayCanvas.innerHTML = `<p class="status-message">No content structures found in this category.</p>`;
-                return;
+        const dataCanvas = document.getElementById('dataCanvas');
+        const tabTitle = document.getElementById('tabTitle');
+        const tabSubtotal = document.getElementById('tabSubtotal');
+        const grandTotal = document.getElementById('grandTotal');
+
+        function loadDatabase() {
+            const stored = localStorage.getItem('scary_budget_v2_data');
+            if (stored) {
+                masterDatabase = JSON.parse(stored);
+            } else {
+                masterDatabase = defaultDatabase;
+                saveDatabase();
             }
-            
-            renderCanvas(masterDatabase[targetKey]);
+            renderCurrentTab();
+            calculateGrandTotal();
         }
 
-        function renderCanvas(records) {
-            dataDisplayCanvas.innerHTML = "";
+        function saveDatabase() {
+            localStorage.setItem('scary_budget_v2_data', JSON.stringify(masterDatabase));
+            calculateGrandTotal();
+        }
+
+        function switchTab(tabKey) {
+            currentTabKey = tabKey;
             
-            records.forEach(item => {
-                const itemCard = document.createElement('div');
-                itemCard.className = 'data-item';
-                
-                itemCard.innerHTML = `
-                    <div class="data-item-front">${item.front}</div>
-                    <div class="data-item-back">${item.back}</div>
-                `;
-                
-                dataDisplayCanvas.appendChild(itemCard);
+            // Update tab button active states
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(tabKey)) {
+                    btn.classList.add('active');
+                }
             });
+
+            tabTitle.textContent = tabTitleMap[tabKey];
+            renderCurrentTab();
         }
 
-        window.addEventListener('DOMContentLoaded', initializeApp);
+        function renderCurrentTab() {
+            dataCanvas.innerHTML = "";
+            const records = masterDatabase[currentTabKey] || [];
+            let tabDailySum = 0;
+
+            records.forEach((rec, index) => {
+                const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+                tabDailySum += dailyCost;
+
+                const card = document.createElement('div');
+                card.className = 'data-card';
+                card.innerHTML = `
+                    <div class="card-header">${rec.item}</div>
+                    <div class="card-controls">
+                        <div class="input-group">
+                            <label>Cost (Shs)</label>
+                            <input type="number" value="${rec.cost}" min="0" onchange="updateItem(${index}, 'cost', this.value)">
+                        </div>
+                        <div class="input-group">
+                            <label>Days</label>
+                            <input type="number" value="${rec.days}" min="1" onchange="updateItem(${index}, 'days', this.value)">
+                        </div>
+                        <div class="daily-output">
+                            <span class="daily-label">Daily Cost</span>
+                            <span class="daily-val">${dailyCost.toFixed(1)} Shs</span>
+                        </div>
+                    </div>
+                `;
+                dataCanvas.appendChild(card);
+            });
+
+            tabSubtotal.textContent = `${tabDailySum.toFixed(1)} Shs/day`;
+        }
+
+        function updateItem(index, field, value) {
+            const numVal = parseFloat(value) || 0;
+            masterDatabase[currentTabKey][index][field] = numVal;
+            saveDatabase();
+            renderCurrentTab();
+        }
+
+        function calculateGrandTotal() {
+            let totalDaily = 0;
+            Object.keys(masterDatabase).forEach(key => {
+                masterDatabase[key].forEach(rec => {
+                    if (rec.days > 0) {
+                        totalDaily += (rec.cost / rec.days);
+                    }
+                });
+            });
+            grandTotal.textContent = `${totalDaily.toFixed(1)} Shs / day`;
+        }
+
+        window.addEventListener('DOMContentLoaded', loadDatabase);
 
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const dynamicScope = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
                 navigator.serviceWorker.register('./sw.js', { scope: dynamicScope })
-                    .then((reg) => console.log('Scary Budget Service Worker registered:', reg.scope))
-                    .catch((err) => console.log('Service Worker registration failed:', err));
+                    .then((reg) => console.log('Service Worker registered:', reg.scope))
+                    .catch((err) => console.log('Service Worker registration error:', err));
             });
         }
     </script>
