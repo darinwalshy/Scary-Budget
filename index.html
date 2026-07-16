@@ -111,12 +111,20 @@
             gap: 12px;
         }
 
+        /* Base Card Style (White) */
         .data-card {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             padding: 14px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        /* Active/Populated Card Style (Soft Green) */
+        .data-card.active-card {
+            background-color: #f0fdf4;
+            border-color: #bbf7d0;
         }
 
         .card-header {
@@ -151,14 +159,14 @@
             font-size: 0.9rem;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            background-color: #f8fafc;
+            background-color: #ffffff;
             color: #0f172a;
             outline: none;
         }
 
         .input-group input:focus {
             border-color: #2563eb;
-            background-color: #ffffff;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
         }
 
         .daily-output {
@@ -235,7 +243,6 @@
     </footer>
 
     <script>
-        // Default seed database constructed from Excel import
         const defaultDatabase = {
             breakfast_snacks: [
                 { item: "Tea leaves", cost: 200, days: 7 },
@@ -345,7 +352,6 @@
         function switchTab(tabKey) {
             currentTabKey = tabKey;
             
-            // Update tab button active states
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.getAttribute('onclick').includes(tabKey)) {
@@ -366,18 +372,29 @@
                 const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
                 tabDailySum += dailyCost;
 
+                // Check if card should have the active soft green background
+                const isActive = rec.cost > 0;
+
                 const card = document.createElement('div');
-                card.className = 'data-card';
+                card.className = `data-card ${isActive ? 'active-card' : ''}`;
                 card.innerHTML = `
                     <div class="card-header">${rec.item}</div>
                     <div class="card-controls">
                         <div class="input-group">
                             <label>Cost (Shs)</label>
-                            <input type="number" value="${rec.cost}" min="0" onchange="updateItem(${index}, 'cost', this.value)">
+                            <input type="number" 
+                                   value="${rec.cost}" 
+                                   min="0" 
+                                   onfocus="this.select()" 
+                                   onchange="updateItem(${index}, 'cost', this.value)">
                         </div>
                         <div class="input-group">
                             <label>Days</label>
-                            <input type="number" value="${rec.days}" min="1" onchange="updateItem(${index}, 'days', this.value)">
+                            <input type="number" 
+                                   value="${rec.days}" 
+                                   min="1" 
+                                   onfocus="this.select()" 
+                                   onchange="updateItem(${index}, 'days', this.value)">
                         </div>
                         <div class="daily-output">
                             <span class="daily-label">Daily Cost</span>
@@ -412,7 +429,6 @@
 
         window.addEventListener('DOMContentLoaded', loadDatabase);
 
-        // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const dynamicScope = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
