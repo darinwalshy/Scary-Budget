@@ -1,9 +1,9 @@
 // ==========================================
 // 🛠️ UNIQUE IDENTIFIERS FOR THIS APP
 // ==========================================
-const APP_PREFIX = 'boilerplate_v2_2_'; // Change this for every new project!
+const APP_PREFIX = 'scary_budget_v1_0_'; // Change this for every new project!
 const CACHE_NAME = APP_PREFIX + 'cache';
-const REPO_NAME = '/Boilerplate';       // Change to match your exact GitHub repository name
+const REPO_NAME = '/Scary-Budget';       // Change to match your exact GitHub repository name
 
 const ASSETS = [
   `${REPO_NAME}/`,
