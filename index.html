@@ -132,83 +132,31 @@
     </main>
 
     <footer>
-        App Version: v1.0-Initial
+        App Version: v1.0-Standalone
     </footer>
 
     <script>
-        let masterDatabase = {};
+        // 1. Define your content locally
+        const masterDatabase = {
+            colors: [
+                { front: "Red", back: "Sample description" },
+                { front: "Blue", back: "Sample description" }
+            ],
+            shapes: [
+                { front: "Circle", back: "Sample description" }
+            ]
+        };
 
         const categorySelect = document.getElementById('categorySelect');
         const categoryTitle = document.getElementById('categoryTitle');
         const dataDisplayCanvas = document.getElementById('dataDisplayCanvas');
 
-        async function loadMasterData() {
-            let rawText = "";
-            try {
-                const cloudUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpIlbRDo-NX3VAOUYsy8RVJGAKDIqyXLy5eTB1jnzd9TnMChnDphyUB3NRkSbo6w/pub?output=csv';
-                
-                const response = await fetch(`${cloudUrl}&t=${new Date().getTime()}`);
-                if (!response.ok) throw new Error("Network response was not ok");
-                rawText = await response.text();
-                
-                parseAndStoreCSV(rawText);
-                
-            } catch (error) {
-                console.log("Cloud stream offline. Checking local container...", error);
-                const storedData = localStorage.getItem('scary_budget_local_data');
-                
-                if (storedData) {
-                    masterDatabase = JSON.parse(storedData);
-                    instantiateCategorySelection();
-                } else {
-                    dataDisplayCanvas.innerHTML = `<p class="status-message">Offline: No cached data structures found.</p>`;
-                }
-            }
+        // 2. Initialize directly without network requests
+        function initializeApp() {
+            const initialCategory = categorySelect.value.toLowerCase();
+            switchCategory(initialCategory);
         }
 
-        function parseAndStoreCSV(text) {
-            masterDatabase = {}; 
-            const rows = text.split(/[\r\n]+/);
-            
-            for (let i = 0; i < rows.length; i++) {
-                const currentRow = rows[i].trim();
-                if (!currentRow) continue; 
-                
-                const columns = currentRow.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if (columns.length < 3) continue; 
-                
-                const rawCategory = columns[0].replace(/^"|"$/g, '').trim(); 
-                const category = rawCategory.toLowerCase();
-                
-                const frontValue = columns[1].replace(/^"|"$/g, '').trim();
-                const backValue = columns[2].replace(/^"|"$/g, '').trim();
-                
-                if (category === 'category') continue;
-                
-                if (!masterDatabase[category]) {
-                    masterDatabase[category] = [];
-                }
-                
-                masterDatabase[category].push({ 
-                    front: frontValue, 
-                    back: backValue 
-                });
-            }
-            
-            localStorage.setItem('scary_budget_local_data', JSON.stringify(masterDatabase));
-            instantiateCategorySelection();
-        }
-
-        function instantiateCategorySelection() {
-            let currentSelection = categorySelect.value.toLowerCase();
-            if (masterDatabase[currentSelection]) {
-                switchCategory(currentSelection);
-            } else {
-                const fallback = Object.keys(masterDatabase)[0];
-                if (fallback) switchCategory(fallback);
-            }
-        }
-        
         function switchCategory(categoryKey) {
             const targetKey = categoryKey.toLowerCase();
             categoryTitle.textContent = targetKey;
@@ -222,7 +170,7 @@
         }
 
         function renderCanvas(records) {
-            dataDisplayCanvas.innerHTML = ""; // Clear active viewport
+            dataDisplayCanvas.innerHTML = "";
             
             records.forEach(item => {
                 const itemCard = document.createElement('div');
@@ -237,18 +185,15 @@
             });
         }
 
-        window.addEventListener('DOMContentLoaded', loadMasterData);
+        window.addEventListener('DOMContentLoaded', initializeApp);
 
-        
-        // Dynamic Namespace Isolation Block
+        // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Dynamically computes the explicit subfolder namespace (e.g., "/Scary-Budget/")
                 const dynamicScope = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-
                 navigator.serviceWorker.register('./sw.js', { scope: dynamicScope })
-                    .then((reg) => console.log('Scary Budget Service Worker registered with scope:', reg.scope))
-                    .catch((err) => console.log('Scary Budget Service Worker registration failed:', err));
+                    .then((reg) => console.log('Scary Budget Service Worker registered:', reg.scope))
+                    .catch((err) => console.log('Service Worker registration failed:', err));
             });
         }
     </script>
