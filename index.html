@@ -243,12 +243,12 @@
         // Dynamic Namespace Isolation Block
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Dynamically computes the explicit subfolder namespace (e.g., "/Boilerplate/")
+                // Dynamically computes the explicit subfolder namespace (e.g., "/Scary-Budget/")
                 const dynamicScope = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
 
                 navigator.serviceWorker.register('./sw.js', { scope: dynamicScope })
-                    .then((reg) => console.log('Boilerplate Service Worker registered with scope:', reg.scope))
-                    .catch((err) => console.log('Boilerplate Service Worker registration failed:', err));
+                    .then((reg) => console.log('Scary Budget Service Worker registered with scope:', reg.scope))
+                    .catch((err) => console.log('Scary Budget Service Worker registration failed:', err));
             });
         }
     </script>
