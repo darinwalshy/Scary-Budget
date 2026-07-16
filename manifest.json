@@ -1,6 +1,6 @@
 {
-  "name": "Boilerplate App Template",
-  "short_name": "Boilerplate",
+  "name": "Scary Budget",
+  "short_name": "Scary Budget",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f4f6f9",
