@@ -131,13 +131,85 @@
             gap: 12px;
         }
 
+        /* Accordion Section Styles */
+        .accordion-section {
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .accordion-header {
+            background-color: #f1f5f9;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #e2e8f0;
+        }
+
+        .accordion-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .accordion-icon {
+            font-size: 0.8rem;
+            transition: transform 0.25s ease;
+            display: inline-block;
+        }
+
+        .accordion-section.open .accordion-icon {
+            transform: rotate(90deg);
+        }
+
+        .accordion-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .accordion-subtotal {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #16a34a;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 12px;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .accordion-section.open .accordion-content {
+            display: flex;
+        }
+
         /* Base Card Style (White) */
         .data-card {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 14px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
             transition: background-color 0.25s ease, border-color 0.25s ease;
         }
 
@@ -148,10 +220,10 @@
         }
 
         .card-header {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #0f172a;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .card-controls {
@@ -168,7 +240,7 @@
         }
 
         .input-group label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #64748b;
             font-weight: 500;
         }
@@ -176,7 +248,7 @@
         .input-group input {
             width: 100%;
             padding: 6px 8px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             background-color: #ffffff;
@@ -197,12 +269,12 @@
         }
 
         .daily-label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #64748b;
         }
 
         .daily-val {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #16a34a;
         }
@@ -241,7 +313,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.1</span>
+            <span class="version-badge" id="appVersion">v2.2</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -266,30 +338,51 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.1"; // Change this whenever you deploy a new version
+        const APP_VERSION = "v2.2";
 
         const defaultDatabase = {
             breakfast_snacks: [
-                { item: "Tea leaves", cost: 200, days: 7 },
-                { item: "Ginger", cost: 100, days: 1 },
-                { item: "Cinnamon", cost: 0, days: 1 },
-                { item: "Sugar", cost: 4000, days: 7 },
-                { item: "Milk", cost: 2000, days: 1 },
-                { item: "Porridge Flour", cost: 0, days: 1 },
-                { item: "Water", cost: 0, days: 1 },
-                { item: "Charcoal/Firewood", cost: 4000, days: 1 },
-                { item: "Match box", cost: 200, days: 10 },
-                { item: "Pancakes", cost: 700, days: 1 },
-                { item: "Bread", cost: 0, days: 1 },
-                { item: "Bread buns", cost: 0, days: 1 },
-                { item: "Boiled or fried cassava", cost: 0, days: 1 },
-                { item: "Mandazi", cost: 0, days: 1 },
-                { item: "Samosas", cost: 0, days: 1 },
-                { item: "Potato chips", cost: 0, days: 1 },
-                { item: "Rice balls", cost: 0, days: 1 },
-                { item: "Pop corn", cost: 0, days: 1 },
-                { item: "Maize", cost: 0, days: 1 },
-                { item: "Chapatti", cost: 0, days: 1 }
+                // BLACK TEA GROUP
+                { group: "BLACK TEA", item: "Water", cost: 0, days: 1 },
+                { group: "BLACK TEA", item: "Tea leaves", cost: 200, days: 7 },
+                { group: "BLACK TEA", item: "Ginger", cost: 100, days: 1 },
+                { group: "BLACK TEA", item: "Cinnamon", cost: 0, days: 1 },
+                { group: "BLACK TEA", item: "Sugar", cost: 4000, days: 7 },
+                { group: "BLACK TEA", item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { group: "BLACK TEA", item: "Match box", cost: 200, days: 10 },
+
+                // MILK GROUP
+                { group: "MILK", item: "Milk", cost: 2000, days: 1 },
+
+                // PORRIDGE GROUP
+                { group: "PORRIDGE", item: "Porridge", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Water", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Sugar", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Spices", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Tea leaves", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Ginger", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Cinnamon", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Water", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Charcoal/Firewood", cost: 0, days: 1 },
+                { group: "PORRIDGE", item: "Match box", cost: 0, days: 1 },
+
+                // LEFT-OVERS GROUP
+                { group: "LEFT-OVERS", item: "Water", cost: 0, days: 1 },
+                { group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, days: 1 },
+                { group: "LEFT-OVERS", item: "Match box", cost: 0, days: 1 },
+
+                // SNACK GROUP
+                { group: "SNACK", item: "Bread", cost: 0, days: 1 },
+                { group: "SNACK", item: "Bread buns", cost: 0, days: 1 },
+                { group: "SNACK", item: "Boiled or fried cassava", cost: 0, days: 1 },
+                { group: "SNACK", item: "Mandazi", cost: 0, days: 1 },
+                { group: "SNACK", item: "Pancakes", cost: 700, days: 1 },
+                { group: "SNACK", item: "Samosas", cost: 0, days: 1 },
+                { group: "SNACK", item: "Potato chips", cost: 0, days: 1 },
+                { group: "SNACK", item: "Rice balls", cost: 0, days: 1 },
+                { group: "SNACK", item: "Pop corn", cost: 0, days: 1 },
+                { group: "SNACK", item: "Maize", cost: 0, days: 1 },
+                { group: "SNACK", item: "Chapatti", cost: 0, days: 1 }
             ],
             lunch_supper: [
                 { item: "Lunch - Cassava", cost: 0, days: 1 },
@@ -344,6 +437,9 @@
         let masterDatabase = {};
         let currentTabKey = "breakfast_snacks";
 
+        // Track accordion open/closed states across tab renders
+        let openAccordions = { "BLACK TEA": true }; 
+
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
             lunch_supper: "Lunch & Supper",
@@ -358,7 +454,6 @@
         const grandTotal = document.getElementById('grandTotal');
         const appVersionEl = document.getElementById('appVersion');
 
-        // Helper function for standard currency display
         function formatNumber(val) {
             return val.toLocaleString('en-US', {
                 minimumFractionDigits: 0,
@@ -366,7 +461,6 @@
             });
         }
 
-        // Formats raw numbers into comma-separated strings (e.g. 4000 -> "4,000")
         function formatInputCommas(val) {
             if (val === null || val === undefined || val === '') return '';
             const numStr = val.toString().replace(/[^0-9.]/g, '');
@@ -391,7 +485,9 @@
                         masterDatabase[catKey] = JSON.parse(JSON.stringify(defaultDatabase[catKey]));
                     } else {
                         defaultDatabase[catKey].forEach(defItem => {
-                            const exists = masterDatabase[catKey].some(saved => saved.item === defItem.item);
+                            const exists = masterDatabase[catKey].some(saved => 
+                                saved.item === defItem.item && (saved.group || '') === (defItem.group || '')
+                            );
                             if (!exists) {
                                 masterDatabase[catKey].push({ ...defItem });
                             }
@@ -429,61 +525,126 @@
             const records = masterDatabase[currentTabKey] || [];
             let tabDailySum = 0;
 
-            records.forEach((rec, index) => {
-                const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
-                tabDailySum += dailyCost;
+            // Check if items in current tab use group accordion structure
+            const hasGroups = records.some(r => r.group);
 
-                const isActive = rec.cost > 0;
+            if (hasGroups) {
+                // Group items by their 'group' property
+                const groupsMap = {};
+                records.forEach((rec, originalIndex) => {
+                    const groupName = rec.group || 'General';
+                    if (!groupsMap[groupName]) groupsMap[groupName] = [];
+                    groupsMap[groupName].push({ ...rec, originalIndex });
+                });
 
-                const card = document.createElement('div');
-                card.className = `data-card ${isActive ? 'active-card' : ''}`;
-                card.innerHTML = `
-                    <div class="card-header">${rec.item}</div>
-                    <div class="card-controls">
-                        <div class="input-group">
-                            <label>Cost (Shs)</label>
-                            <input type="text" 
-                                   inputmode="numeric" 
-                                   value="${formatInputCommas(rec.cost)}" 
-                                   onfocus="this.select()" 
-                                   oninput="handleCostInput(this, ${index})">
+                Object.keys(groupsMap).forEach(groupName => {
+                    const groupItems = groupsMap[groupName];
+                    let groupDailySum = 0;
+
+                    groupItems.forEach(item => {
+                        if (item.days > 0) {
+                            groupDailySum += (item.cost / item.days);
+                        }
+                    });
+
+                    tabDailySum += groupDailySum;
+                    const isOpen = !!openAccordions[groupName];
+
+                    const sectionEl = document.createElement('div');
+                    sectionEl.className = `accordion-section ${isOpen ? 'open' : ''}`;
+                    
+                    // Accordion Header
+                    const headerEl = document.createElement('div');
+                    headerEl.className = 'accordion-header';
+                    headerEl.onclick = () => toggleAccordion(groupName, sectionEl);
+                    headerEl.innerHTML = `
+                        <div class="accordion-title-group">
+                            <span class="accordion-icon">▶</span>
+                            <span>${groupName}</span>
                         </div>
-                        <div class="input-group">
-                            <label>Days</label>
-                            <input type="number" 
-                                   inputmode="numeric" 
-                                   step="1" 
-                                   value="${rec.days}" 
-                                   min="1" 
-                                   onfocus="this.select()" 
-                                   onchange="updateItem(${index}, 'days', this.value)">
+                        <div class="accordion-meta">
+                            <span class="accordion-subtotal" id="subtotal-${groupName.replace(/\s+/g, '-')}">${formatNumber(groupDailySum)} Shs/day</span>
                         </div>
-                        <div class="daily-output">
-                            <span class="daily-label">Daily Cost</span>
-                            <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
-                        </div>
-                    </div>
-                `;
-                dataCanvas.appendChild(card);
-            });
+                    `;
+
+                    // Accordion Container
+                    const contentEl = document.createElement('div');
+                    contentEl.className = 'accordion-content';
+
+                    groupItems.forEach(item => {
+                        const card = createCardElement(item, item.originalIndex);
+                        contentEl.appendChild(card);
+                    });
+
+                    sectionEl.appendChild(headerEl);
+                    sectionEl.appendChild(contentEl);
+                    dataCanvas.appendChild(sectionEl);
+                });
+
+            } else {
+                // Standard Flat List Rendering
+                records.forEach((rec, index) => {
+                    const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+                    tabDailySum += dailyCost;
+                    const card = createCardElement(rec, index);
+                    dataCanvas.appendChild(card);
+                });
+            }
 
             tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
         }
 
-        // Live formatting for the Cost input field
+        // Helper to generate a single card DOM node
+        function createCardElement(rec, index) {
+            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+            const isActive = rec.cost > 0;
+
+            const card = document.createElement('div');
+            card.className = `data-card ${isActive ? 'active-card' : ''}`;
+            card.innerHTML = `
+                <div class="card-header">${rec.item}</div>
+                <div class="card-controls">
+                    <div class="input-group">
+                        <label>Cost (Shs)</label>
+                        <input type="text" 
+                               inputmode="numeric" 
+                               value="${formatInputCommas(rec.cost)}" 
+                               onfocus="this.select()" 
+                               oninput="handleCostInput(this, ${index})">
+                    </div>
+                    <div class="input-group">
+                        <label>Days</label>
+                        <input type="number" 
+                               inputmode="numeric" 
+                               step="1" 
+                               value="${rec.days}" 
+                               min="1" 
+                               onfocus="this.select()" 
+                               onchange="updateItem(${index}, 'days', this.value)">
+                    </div>
+                    <div class="daily-output">
+                        <span class="daily-label">Daily Cost</span>
+                        <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function toggleAccordion(groupName, sectionEl) {
+            openAccordions[groupName] = !openAccordions[groupName];
+            sectionEl.classList.toggle('open', openAccordions[groupName]);
+        }
+
         function handleCostInput(inputEl, index) {
-            // Strip non-digits to get raw numeric value
             const rawDigits = inputEl.value.replace(/[^0-9]/g, '');
             const numVal = parseFloat(rawDigits) || 0;
 
-            // Format displayed input value with commas
             inputEl.value = rawDigits ? parseInt(rawDigits, 10).toLocaleString('en-US') : '';
 
-            // Update database and totals
             masterDatabase[currentTabKey][index].cost = numVal;
             saveDatabase();
 
-            // Refresh subtotal and daily output without destroying active cursor position
             const card = inputEl.closest('.data-card');
             const rec = masterDatabase[currentTabKey][index];
             const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
@@ -491,7 +652,22 @@
             card.classList.toggle('active-card', rec.cost > 0);
             card.querySelector('.daily-val').textContent = `${formatNumber(dailyCost)} Shs`;
 
-            // Calculate overall tab subtotal
+            // Live update section subtotal if inside an accordion
+            if (rec.group) {
+                const groupName = rec.group;
+                let groupDailySum = 0;
+                masterDatabase[currentTabKey].forEach(r => {
+                    if (r.group === groupName && r.days > 0) {
+                        groupDailySum += (r.cost / r.days);
+                    }
+                });
+                const subtotalBadge = document.getElementById(`subtotal-${groupName.replace(/\s+/g, '-')}`);
+                if (subtotalBadge) {
+                    subtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                }
+            }
+
+            // Live update tab total
             let tabDailySum = 0;
             masterDatabase[currentTabKey].forEach(r => {
                 if (r.days > 0) tabDailySum += (r.cost / r.days);
