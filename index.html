@@ -332,14 +332,41 @@
         const tabSubtotal = document.getElementById('tabSubtotal');
         const grandTotal = document.getElementById('grandTotal');
 
+        // Helper function for standard currency display
+        function formatNumber(val) {
+            return val.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 1
+            });
+        }
+
         function loadDatabase() {
             const stored = localStorage.getItem('scary_budget_v2_data');
-            if (stored) {
-                masterDatabase = JSON.parse(stored);
+            
+            if (!stored) {
+                // First time load
+                masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
             } else {
-                masterDatabase = defaultDatabase;
-                saveDatabase();
+                masterDatabase = JSON.parse(stored);
+
+                // Reconcile saved database against latest defaultDatabase schema
+                Object.keys(defaultDatabase).forEach(catKey => {
+                    if (!masterDatabase[catKey]) {
+                        // Category is entirely new
+                        masterDatabase[catKey] = JSON.parse(JSON.stringify(defaultDatabase[catKey]));
+                    } else {
+                        // Check for new default items inside existing category
+                        defaultDatabase[catKey].forEach(defItem => {
+                            const exists = masterDatabase[catKey].some(saved => saved.item === defItem.item);
+                            if (!exists) {
+                                masterDatabase[catKey].push({ ...defItem });
+                            }
+                        });
+                    }
+                });
             }
+
+            saveDatabase();
             renderCurrentTab();
             calculateGrandTotal();
         }
@@ -383,6 +410,8 @@
                         <div class="input-group">
                             <label>Cost (Shs)</label>
                             <input type="number" 
+                                   inputmode="decimal" 
+                                   step="any" 
                                    value="${rec.cost}" 
                                    min="0" 
                                    onfocus="this.select()" 
@@ -391,6 +420,8 @@
                         <div class="input-group">
                             <label>Days</label>
                             <input type="number" 
+                                   inputmode="numeric" 
+                                   step="1" 
                                    value="${rec.days}" 
                                    min="1" 
                                    onfocus="this.select()" 
@@ -398,14 +429,14 @@
                         </div>
                         <div class="daily-output">
                             <span class="daily-label">Daily Cost</span>
-                            <span class="daily-val">${dailyCost.toFixed(1)} Shs</span>
+                            <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
                         </div>
                     </div>
                 `;
                 dataCanvas.appendChild(card);
             });
 
-            tabSubtotal.textContent = `${tabDailySum.toFixed(1)} Shs/day`;
+            tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
         }
 
         function updateItem(index, field, value) {
@@ -424,7 +455,7 @@
                     }
                 });
             });
-            grandTotal.textContent = `${totalDaily.toFixed(1)} Shs / day`;
+            grandTotal.textContent = `${formatNumber(totalDaily)} Shs / day`;
         }
 
         window.addEventListener('DOMContentLoaded', loadDatabase);
