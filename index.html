@@ -27,19 +27,39 @@
             width: 100%;
             max-width: 600px;
             background-color: #ffffff;
-            padding: 20px 16px 10px 16px;
+            padding: 16px 16px 10px 16px;
             border-bottom: 1px solid #e2e8f0;
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
+        .header-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
         h1 {
             font-size: 1.5rem;
             font-weight: 700;
             color: #0f172a;
-            margin-bottom: 12px;
             text-align: center;
+        }
+
+        /* Version Badge */
+        .version-badge {
+            position: absolute;
+            right: 0;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748b;
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 2px 8px;
+            border-radius: 12px;
         }
 
         /* Scrollable Top Tab Bar */
@@ -219,7 +239,10 @@
 <body>
 
     <header>
-        <h1>Scary Budget</h1>
+        <div class="header-top">
+            <h1>Scary Budget</h1>
+            <span class="version-badge" id="appVersion">v2.1</span>
+        </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
             <button class="tab-btn" onclick="switchTab('lunch_supper')">🍲 Lunch & Supper</button>
@@ -243,6 +266,8 @@
     </footer>
 
     <script>
+        const APP_VERSION = "v2.1"; // Change this whenever you deploy a new version
+
         const defaultDatabase = {
             breakfast_snacks: [
                 { item: "Tea leaves", cost: 200, days: 7 },
@@ -331,6 +356,7 @@
         const tabTitle = document.getElementById('tabTitle');
         const tabSubtotal = document.getElementById('tabSubtotal');
         const grandTotal = document.getElementById('grandTotal');
+        const appVersionEl = document.getElementById('appVersion');
 
         // Helper function for standard currency display
         function formatNumber(val) {
@@ -340,11 +366,21 @@
             });
         }
 
+        // Formats raw numbers into comma-separated strings (e.g. 4000 -> "4,000")
+        function formatInputCommas(val) {
+            if (val === null || val === undefined || val === '') return '';
+            const numStr = val.toString().replace(/[^0-9.]/g, '');
+            if (!numStr) return '';
+            const parts = numStr.split('.');
+            parts[0] = parseInt(parts[0], 10).toLocaleString('en-US');
+            return parts.join('.');
+        }
+
         function loadDatabase() {
+            appVersionEl.textContent = APP_VERSION;
             const stored = localStorage.getItem('scary_budget_v2_data');
             
             if (!stored) {
-                // First time load
                 masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
             } else {
                 masterDatabase = JSON.parse(stored);
@@ -352,10 +388,8 @@
                 // Reconcile saved database against latest defaultDatabase schema
                 Object.keys(defaultDatabase).forEach(catKey => {
                     if (!masterDatabase[catKey]) {
-                        // Category is entirely new
                         masterDatabase[catKey] = JSON.parse(JSON.stringify(defaultDatabase[catKey]));
                     } else {
-                        // Check for new default items inside existing category
                         defaultDatabase[catKey].forEach(defItem => {
                             const exists = masterDatabase[catKey].some(saved => saved.item === defItem.item);
                             if (!exists) {
@@ -399,7 +433,6 @@
                 const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
                 tabDailySum += dailyCost;
 
-                // Check if card should have the active soft green background
                 const isActive = rec.cost > 0;
 
                 const card = document.createElement('div');
@@ -409,13 +442,11 @@
                     <div class="card-controls">
                         <div class="input-group">
                             <label>Cost (Shs)</label>
-                            <input type="number" 
-                                   inputmode="decimal" 
-                                   step="any" 
-                                   value="${rec.cost}" 
-                                   min="0" 
+                            <input type="text" 
+                                   inputmode="numeric" 
+                                   value="${formatInputCommas(rec.cost)}" 
                                    onfocus="this.select()" 
-                                   onchange="updateItem(${index}, 'cost', this.value)">
+                                   oninput="handleCostInput(this, ${index})">
                         </div>
                         <div class="input-group">
                             <label>Days</label>
@@ -436,6 +467,35 @@
                 dataCanvas.appendChild(card);
             });
 
+            tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
+        }
+
+        // Live formatting for the Cost input field
+        function handleCostInput(inputEl, index) {
+            // Strip non-digits to get raw numeric value
+            const rawDigits = inputEl.value.replace(/[^0-9]/g, '');
+            const numVal = parseFloat(rawDigits) || 0;
+
+            // Format displayed input value with commas
+            inputEl.value = rawDigits ? parseInt(rawDigits, 10).toLocaleString('en-US') : '';
+
+            // Update database and totals
+            masterDatabase[currentTabKey][index].cost = numVal;
+            saveDatabase();
+
+            // Refresh subtotal and daily output without destroying active cursor position
+            const card = inputEl.closest('.data-card');
+            const rec = masterDatabase[currentTabKey][index];
+            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+            
+            card.classList.toggle('active-card', rec.cost > 0);
+            card.querySelector('.daily-val').textContent = `${formatNumber(dailyCost)} Shs`;
+
+            // Calculate overall tab subtotal
+            let tabDailySum = 0;
+            masterDatabase[currentTabKey].forEach(r => {
+                if (r.days > 0) tabDailySum += (r.cost / r.days);
+            });
             tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
         }
 
