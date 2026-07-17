@@ -1,7 +1,7 @@
 // ==========================================
 // 🛠️ UNIQUE IDENTIFIERS FOR THIS APP
 // ==========================================
-const APP_PREFIX = 'scary_budget_v1_9_';
+const APP_PREFIX = 'scary_budget_v1_91_';
 const CACHE_NAME = APP_PREFIX + 'cache';
 
 const ASSETS = [
