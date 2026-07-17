@@ -313,7 +313,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.2</span>
+            <span class="version-badge" id="appVersion">v2.3</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -338,7 +338,8 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.2";
+        const APP_VERSION = "v2.3";
+        const STORAGE_KEY = "scary_budget_v2_3_data";
 
         const defaultDatabase = {
             breakfast_snacks: [
@@ -472,28 +473,12 @@
 
         function loadDatabase() {
             appVersionEl.textContent = APP_VERSION;
-            const stored = localStorage.getItem('scary_budget_v2_data');
+            const stored = localStorage.getItem(STORAGE_KEY);
             
             if (!stored) {
                 masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
             } else {
                 masterDatabase = JSON.parse(stored);
-
-                // Reconcile saved database against latest defaultDatabase schema
-                Object.keys(defaultDatabase).forEach(catKey => {
-                    if (!masterDatabase[catKey]) {
-                        masterDatabase[catKey] = JSON.parse(JSON.stringify(defaultDatabase[catKey]));
-                    } else {
-                        defaultDatabase[catKey].forEach(defItem => {
-                            const exists = masterDatabase[catKey].some(saved => 
-                                saved.item === defItem.item && (saved.group || '') === (defItem.group || '')
-                            );
-                            if (!exists) {
-                                masterDatabase[catKey].push({ ...defItem });
-                            }
-                        });
-                    }
-                });
             }
 
             saveDatabase();
@@ -502,7 +487,7 @@
         }
 
         function saveDatabase() {
-            localStorage.setItem('scary_budget_v2_data', JSON.stringify(masterDatabase));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(masterDatabase));
             calculateGrandTotal();
         }
 
