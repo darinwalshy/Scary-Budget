@@ -1,16 +1,20 @@
 // ==========================================
 // 🛠️ UNIQUE IDENTIFIERS FOR THIS APP
 // ==========================================
-const APP_PREFIX = 'scary_budget_v1_91_';
+const BASE_PREFIX = 'scary_budget_v'; 
+const APP_PREFIX = `${BASE_PREFIX}1_92_`; // Bumped version to force cache updates
 const CACHE_NAME = APP_PREFIX + 'cache';
 
+// Double-check: Match your exact GitHub repo casing/spelling
+const REPO_NAME = '/Scary-Budget';      
+
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json'
+  `${REPO_NAME}/`,
+  `${REPO_NAME}/index.html`,
+  `${REPO_NAME}/manifest.json`
 ];
 
-// Install event: Pre-cache core files using relative paths
+// Install event
 self.addEventListener('install', (event) => {
   self.skipWaiting(); 
   event.waitUntil(
@@ -20,13 +24,14 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event: Clear old caches for THIS app only
+// Activate event: Fixes the historical version cleanup leak
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (key.startsWith(APP_PREFIX) && key !== CACHE_NAME) {
+          // FIX: Look for any historical scary budget cache, purging everything except current
+          if (key.startsWith(BASE_PREFIX) && key !== CACHE_NAME) {
             console.log(`[Service Worker] Cleared old app cache: ${key}`);
             return caches.delete(key);
           }
@@ -36,14 +41,17 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event: Network-first with offline fallback
+// Fetch event: Network-first with absolute scoping
 self.addEventListener('fetch', (event) => {
-  // Only handle same-origin GET requests
-  if (event.request.method === 'GET' && event.request.url.startsWith(self.location.origin)) {
+  const requestUrl = event.request.url;
+
+  // Only intercept GET requests belonging specifically to this app's GitHub directory
+  if (event.request.method === 'GET' && requestUrl.includes(self.location.origin) && requestUrl.includes(REPO_NAME)) {
     event.respondWith(
       fetch(event.request).catch(() => {
         return caches.match(event.request).then((response) => {
-          return response || caches.match('./index.html');
+          // Fall back to specific namespaced index if individual asset is missing offline
+          return response || caches.match(`${REPO_NAME}/index.html`);
         });
       })
     );
