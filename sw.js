@@ -1,7 +1,7 @@
 // ==========================================
 // 🛠️ UNIQUE IDENTIFIERS FOR THIS APP
 // ==========================================
-const BASE_PREFIX = 'scary_budget_v'; 
+const BASE_PREFIX = 'scary_budget_v1'; 
 const APP_PREFIX = `${BASE_PREFIX}1_92_`; // Bumped version to force cache updates
 const CACHE_NAME = APP_PREFIX + 'cache';
 
