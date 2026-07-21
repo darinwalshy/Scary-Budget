@@ -1,3 +1,4 @@
+1) At the moment every version update resets the users local storage numbers
 1) Need to add an "Empty" button to depopulate the calculator,
 2) Maybe Need to add a report button to send out the data??,
 3) Need to reorganise all the groups/items,
