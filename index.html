@@ -131,7 +131,7 @@
             gap: 12px;
         }
 
-        /* Category Section Containers (Option A) */
+        /* Category Section Containers */
         .category-block {
             background-color: #ffffff;
             border: 1px solid #cbd5e1;
@@ -329,20 +329,20 @@
         }
         
         .data-card.disabled-card input {
-                background-color: #e2e8f0;
-                color: #94a3b8;
-                cursor: not-allowed;
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
         }
         
         .shared-badge {
-                font-size: 0.72rem;
-                font-weight: 600;
-                color: #475569;
-                background-color: #e2e8f0;
-                padding: 3px 6px;
-                border-radius: 4px;
-                display: inline-block;
-                line-height: 1.2;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #475569;
+            background-color: #e2e8f0;
+            padding: 3px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            line-height: 1.2;
         }
                 
         /* Sticky Grand Total Footer */
@@ -379,7 +379,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.6</span>
+            <span class="version-badge" id="appVersion">v2.67</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -404,8 +404,16 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.66";
-        const STORAGE_KEY = "scary_budget_v2_66_data";
+        const APP_VERSION = "v2.67";
+        const STORAGE_KEY = "scary_budget_v2_67_data";
+
+        const tabTitleMap = {
+            breakfast_snacks: "Breakfast & Snacks",
+            lunch_supper: "Lunch & Supper",
+            rent_household: "Rent & Household",
+            school_fees: "School Fees",
+            other: "Other"
+        };
 
         const defaultDatabase = {
             breakfast_snacks: [
@@ -576,7 +584,7 @@
                 { category: "School Fees", group: "Child 4", item: "Reem of paper", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 4", item: "Lunch and snacks", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 4", item: "Other requuirements", cost: 0, days: 120 },
-                
+
                 { category: "School Fees", group: "Child 5", item: "Fees", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 5", item: "Uniform", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 5", item: "Shoes", cost: 0, days: 120 },
@@ -596,7 +604,7 @@
                 { category: "School Fees", group: "Child 6", item: "Reem of paper", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 6", item: "Lunch and snacks", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 6", item: "Other requuirements", cost: 0, days: 120 },
-                
+
                 { category: "School Fees", group: "Child 7", item: "Fees", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 7", item: "Uniform", cost: 0, days: 120 },
                 { category: "School Fees", group: "Child 7", item: "Shoes", cost: 0, days: 120 },
@@ -627,48 +635,26 @@
 
         let masterDatabase = {};
         let currentTabKey = "breakfast_snacks";
-        let openAccordions = {}; 
 
-        const tabTitleMap = {
-            breakfast_snacks: "Breakfast & Snacks",
-            lunch_supper: "Lunch & Supper",
-            rent_household: "Rent & Household",
-            school_fees: "School Fees",
-            other: "Other (Transport, Med, Church)"
-        };
-
-        const dataCanvas = document.getElementById('dataCanvas');
+        // DOM elements
+        const appVersionEl = document.getElementById('appVersion');
         const tabTitle = document.getElementById('tabTitle');
         const tabSubtotal = document.getElementById('tabSubtotal');
-        const grandTotal = document.getElementById('grandTotal');
-        const appVersionEl = document.getElementById('appVersion');
+        const dataCanvas = document.getElementById('dataCanvas');
+        const grandTotalEl = document.getElementById('grandTotal');
 
-        function formatNumber(val) {
-            return val.toLocaleString('en-US', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 1
-            });
-        }
-
-        function formatInputCommas(val) {
-            if (val === null || val === undefined || val === '') return '';
-            const numStr = val.toString().replace(/[^0-9.]/g, '');
-            if (!numStr) return '';
-            const parts = numStr.split('.');
-            parts[0] = parseInt(parts[0], 10).toLocaleString('en-US');
-            return parts.join('.');
+        function formatNumber(num) {
+            return Math.round(num).toLocaleString('en-US');
         }
 
         function loadDatabase() {
             appVersionEl.textContent = APP_VERSION;
             const stored = localStorage.getItem(STORAGE_KEY);
-            
             if (!stored) {
                 masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
             } else {
                 masterDatabase = JSON.parse(stored);
             }
-
             saveDatabase();
             renderCurrentTab();
             calculateGrandTotal();
@@ -676,23 +662,9 @@
 
         function saveDatabase() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(masterDatabase));
-            calculateGrandTotal();
         }
 
-        function switchTab(tabKey) {
-            currentTabKey = tabKey;
-            
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('onclick').includes(tabKey)) {
-                    btn.classList.add('active');
-                }
-            });
-
-            tabTitle.textContent = tabTitleMap[tabKey];
-            renderCurrentTab();
-        }
-
+        // Shared key resolver: requires cost > 0 to lock other fields
         function getSharedOwner(sharedKey) {
             if (!sharedKey) return null;
             for (const tabKey in masterDatabase) {
@@ -705,188 +677,169 @@
             }
             return null;
         }
-        
-        function renderCurrentTab() {
-            dataCanvas.innerHTML = "";
-            const records = masterDatabase[currentTabKey] || [];
-            let tabDailySum = 0;
 
-            const hasCategories = records.some(r => r.category);
+        function switchTab(tabKey) {
+            currentTabKey = tabKey;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const btnMap = {
+                'breakfast_snacks': 0,
+                'lunch_supper': 1,
+                'rent_household': 2,
+                'school_fees': 3,
+                'other': 4
+            };
+            const btnIndex = btnMap[tabKey];
+            if (btnIndex !== undefined) {
+                document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+            }
+
+            renderCurrentTab();
+        }
+
+        function renderCurrentTab() {
+            tabTitle.textContent = tabTitleMap[currentTabKey];
+            dataCanvas.innerHTML = '';
+
+            const list = masterDatabase[currentTabKey] || [];
+            let tabDailyTotal = 0;
+
+            const hasCategories = list.some(item => item.category);
 
             if (hasCategories) {
-                // Step 1: Group by Category ("Breakfast" vs "Snacks")
-                const categoryMap = {};
-                records.forEach((rec, originalIndex) => {
-                    const categoryName = rec.category || 'General';
-                    if (!categoryMap[categoryName]) categoryMap[categoryName] = [];
-                    categoryMap[categoryName].push({ ...rec, originalIndex });
+                const categoriesMap = {};
+                list.forEach((rec, originalIndex) => {
+                    const catName = rec.category || "General";
+                    if (!categoriesMap[catName]) categoriesMap[catName] = [];
+                    categoriesMap[catName].push({ rec, originalIndex });
                 });
 
-                Object.keys(categoryMap).forEach(catName => {
-                    const catItems = categoryMap[catName];
-                    let catDailySum = 0;
-
+                for (const catName in categoriesMap) {
                     const catBlock = document.createElement('div');
                     catBlock.className = 'category-block';
 
                     const catHeader = document.createElement('div');
                     catHeader.className = 'category-header';
-                    
-                    const catTitle = document.createElement('span');
-                    catTitle.className = 'category-title';
-                    catTitle.textContent = catName;
-
-                    const catBadge = document.createElement('span');
-                    catBadge.className = 'category-subtotal';
-                    catBadge.id = `cat-subtotal-${catName.replace(/\s+/g, '-')}`;
-                    
-                    catHeader.appendChild(catTitle);
-                    catHeader.appendChild(catBadge);
+                    catHeader.innerHTML = `
+                        <div class="category-title">🏷️ ${catName}</div>
+                        <div class="category-subtotal" id="cat-subtotal-${catName.replace(/\s+/g, '-')}">0 Shs/day</div>
+                    `;
                     catBlock.appendChild(catHeader);
 
-                    // Step 2: Group sub-items inside category by group
-                    const groupMap = {};
-                    catItems.forEach(item => {
-                        const groupName = item.group || 'General';
-                        if (!groupMap[groupName]) groupMap[groupName] = [];
-                        groupMap[groupName].push(item);
-                    });
+                    const catItems = categoriesMap[catName];
+                    const hasGroups = catItems.some(i => i.rec.group);
 
-                    Object.keys(groupMap).forEach(groupName => {
-                        const groupItems = groupMap[groupName];
-                        let groupDailySum = 0;
-
-                        groupItems.forEach(item => {
-                            if (item.days > 0) {
-                                const daily = (item.cost / item.days);
-                                groupDailySum += daily;
-                                catDailySum += daily;
-                            }
+                    if (hasGroups) {
+                        const groupsMap = {};
+                        catItems.forEach(itemObj => {
+                            const groupName = itemObj.rec.group || "General";
+                            if (!groupsMap[groupName]) groupsMap[groupName] = [];
+                            groupsMap[groupName].push(itemObj);
                         });
 
-                        const isOpen = !!openAccordions[groupName];
+                        for (const groupName in groupsMap) {
+                            const accordion = document.createElement('div');
+                            accordion.className = 'accordion-section';
 
-                        const sectionEl = document.createElement('div');
-                        sectionEl.className = `accordion-section ${isOpen ? 'open' : ''}`;
-                        
-                        const headerEl = document.createElement('div');
-                        headerEl.className = 'accordion-header';
-                        headerEl.onclick = () => toggleAccordion(groupName, sectionEl);
-                        headerEl.innerHTML = `
-                            <div class="accordion-title-group">
-                                <span class="accordion-icon">▶</span>
-                                <span>${groupName}</span>
-                            </div>
-                            <div class="accordion-meta">
-                                <span class="accordion-subtotal" id="subtotal-${groupName.replace(/\s+/g, '-')}">${formatNumber(groupDailySum)} Shs/day</span>
-                            </div>
-                        `;
+                            const head = document.createElement('div');
+                            head.className = 'accordion-header';
+                            head.onclick = () => accordion.classList.toggle('open');
+                            
+                            head.innerHTML = `
+                                <div class="accordion-title-group">
+                                    <span class="accordion-icon">▶</span>
+                                    <span>${groupName}</span>
+                                </div>
+                                <div class="accordion-meta">
+                                    <span class="accordion-subtotal" id="subtotal-${groupName.replace(/\s+/g, '-')}">0 Shs/day</span>
+                                </div>
+                            `;
 
-                        const contentEl = document.createElement('div');
-                        contentEl.className = 'accordion-content';
+                            const body = document.createElement('div');
+                            body.className = 'accordion-content';
 
-                        groupItems.forEach(item => {
-                            const card = createCardElement(item, item.originalIndex);
-                            contentEl.appendChild(card);
+                            let groupDailySum = 0;
+                            groupsMap[groupName].forEach(itemObj => {
+                                const card = createCardElement(itemObj.rec, itemObj.originalIndex);
+                                body.appendChild(card);
+                                if (itemObj.rec.days > 0) {
+                                    groupDailySum += (itemObj.rec.cost / itemObj.rec.days);
+                                }
+                            });
+
+                            head.querySelector('.accordion-subtotal').textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                            accordion.appendChild(head);
+                            accordion.appendChild(body);
+                            catBlock.appendChild(accordion);
+                        }
+                    } else {
+                        catItems.forEach(itemObj => {
+                            const card = createCardElement(itemObj.rec, itemObj.originalIndex);
+                            catBlock.appendChild(card);
                         });
+                    }
 
-                        sectionEl.appendChild(headerEl);
-                        sectionEl.appendChild(contentEl);
-                        catBlock.appendChild(sectionEl);
+                    // Calculate category daily subtotal
+                    let catDailySum = 0;
+                    catItems.forEach(itemObj => {
+                        if (itemObj.rec.days > 0) {
+                            catDailySum += (itemObj.rec.cost / itemObj.rec.days);
+                        }
                     });
+                    catHeader.querySelector('.category-subtotal').textContent = `${formatNumber(catDailySum)} Shs/day`;
 
-                    catBadge.textContent = `${formatNumber(catDailySum)} Shs/day`;
-                    tabDailySum += catDailySum;
                     dataCanvas.appendChild(catBlock);
-                });
-
+                }
             } else {
-                // Standard Flat List Rendering
-                records.forEach((rec, index) => {
-                    const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
-                    tabDailySum += dailyCost;
-                    const card = createCardElement(rec, index);
+                list.forEach((rec, originalIndex) => {
+                    const card = createCardElement(rec, originalIndex);
                     dataCanvas.appendChild(card);
                 });
             }
 
-            tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
+            // Tab-level total
+            list.forEach(rec => {
+                if (rec.days > 0) tabDailyTotal += (rec.cost / rec.days);
+            });
+            tabSubtotal.textContent = `${formatNumber(tabDailyTotal)} Shs/day`;
         }
 
         function createCardElement(rec, index) {
-            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
-            const isActive = rec.cost > 0;
-            
-            // Check if another card owns this shared key
-            const ownerInfo = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
-            const isLockedByOther = ownerInfo && ownerInfo.item !== rec;
-            
             const card = document.createElement('div');
-            card.className = `data-card ${isActive ? 'active-card' : ''} ${isLockedByOther ? 'disabled-card' : ''}`;
-            
-            card.innerHTML = `
-            <div class="card-header">${rec.item}</div>
-            <div class="card-controls">
-            <div class="input-group">
-            <label>Cost (Shs)</label>
-            <input type="text" 
-            inputmode="numeric" 
-            value="${formatInputCommas(rec.cost)}" 
-            ${isLockedByOther ? 'disabled' : ''}
-            onfocus="this.select()" 
-            oninput="handleCostInput(this, ${index})">
-            </div>
-            <div class="input-group">
-            <label>Days</label>
-            <input type="number" 
-            inputmode="numeric" 
-            step="1" 
-            value="${rec.days}" 
-            min="1" 
-            ${isLockedByOther ? 'disabled' : ''}
-            onfocus="this.select()" 
-            onchange="updateItem(${index}, 'days', this.value)">
-            </div>
-            <div class="daily-output">
-            ${isLockedByOther ? `
-            <span class="daily-label">Status</span>
-            <span class="shared-badge">Covered in<br>${ownerInfo.location}</span>
-            ` : `
-            <span class="daily-label">Daily Cost</span>
-            <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
-            `}
-            </div>
-            </div>
-            `;
-            return card;
-        }  
+            card.className = 'data-card';
+            if (rec.cost > 0) card.classList.add('active-card');
 
-        function createCardElement(rec, index) {
             const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
-            const isActive = rec.cost > 0;
+            const sharedOwner = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
+            const isLockedByOther = sharedOwner && sharedOwner.item !== rec;
 
-            const card = document.createElement('div');
-            card.className = `data-card ${isActive ? 'active-card' : ''}`;
+            if (isLockedByOther) {
+                card.classList.add('disabled-card');
+            }
+
             card.innerHTML = `
-                <div class="card-header">${rec.item}</div>
+                <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>${rec.item}</span>
+                    ${isLockedByOther ? `<span class="shared-badge">Covered in ${sharedOwner.location}</span>` : ''}
+                </div>
                 <div class="card-controls">
                     <div class="input-group">
-                        <label>Cost (Shs)</label>
+                        <label>Total Cost (Shs)</label>
                         <input type="text" 
                                inputmode="numeric" 
-                               value="${formatInputCommas(rec.cost)}" 
-                               onfocus="this.select()" 
-                               oninput="handleCostInput(this, ${index})">
+                               value="${rec.cost > 0 ? rec.cost.toLocaleString('en-US') : ''}" 
+                               placeholder="0" 
+                               ${isLockedByOther ? 'disabled' : ''}
+                               oninput="handleCostInput(this, ${index})"
+                               onblur="renderCurrentTab()">
                     </div>
                     <div class="input-group">
-                        <label>Days</label>
+                        <label>Lasts (Days)</label>
                         <input type="number" 
-                               inputmode="numeric" 
-                               step="1" 
                                value="${rec.days}" 
                                min="1" 
-                               onfocus="this.select()" 
-                               onchange="updateItem(${index}, 'days', this.value)">
+                               ${isLockedByOther ? 'disabled' : ''}
+                               oninput="handleDaysInput(this, ${index})">
                     </div>
                     <div class="daily-output">
                         <span class="daily-label">Daily Cost</span>
@@ -895,11 +848,6 @@
                 </div>
             `;
             return card;
-        }
-
-        function toggleAccordion(groupName, sectionEl) {
-            openAccordions[groupName] = !openAccordions[groupName];
-            sectionEl.classList.toggle('open', openAccordions[groupName]);
         }
 
         function handleCostInput(inputEl, index) {
@@ -916,7 +864,10 @@
             const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
             
             card.classList.toggle('active-card', rec.cost > 0);
-            card.querySelector('.daily-val').textContent = `${formatNumber(dailyCost)} Shs`;
+            const dailyValEl = card.querySelector('.daily-val');
+            if (dailyValEl) {
+                dailyValEl.textContent = `${formatNumber(dailyCost)} Shs`;
+            }
 
             // Live update group accordion subtotal
             if (rec.group) {
@@ -948,48 +899,83 @@
                 }
             }
 
-            // Live update tab total
+            // Live update tab total & grand total
             let tabDailySum = 0;
             masterDatabase[currentTabKey].forEach(r => {
                 if (r.days > 0) tabDailySum += (r.cost / r.days);
             });
             tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
-            
-            // Refresh view if editing a shared item so other cards instantly lock/unlock
-            if (rec.sharedKey) {
-                renderCurrentTab();
-            }
+            calculateGrandTotal();
         }
 
-        function updateItem(index, field, value) {
-            const numVal = parseFloat(value) || 0;
-            masterDatabase[currentTabKey][index][field] = numVal;
+        function handleDaysInput(inputEl, index) {
+            let numVal = parseInt(inputEl.value, 10);
+            if (isNaN(numVal) || numVal < 1) numVal = 1;
+
+            masterDatabase[currentTabKey][index].days = numVal;
             saveDatabase();
-            renderCurrentTab();
+
+            const card = inputEl.closest('.data-card');
+            const rec = masterDatabase[currentTabKey][index];
+            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+
+            const dailyValEl = card.querySelector('.daily-val');
+            if (dailyValEl) {
+                dailyValEl.textContent = `${formatNumber(dailyCost)} Shs`;
+            }
+
+            // Live update group subtotal
+            if (rec.group) {
+                const groupName = rec.group;
+                let groupDailySum = 0;
+                masterDatabase[currentTabKey].forEach(r => {
+                    if (r.group === groupName && r.days > 0) {
+                        groupDailySum += (r.cost / r.days);
+                    }
+                });
+                const subtotalBadge = document.getElementById(`subtotal-${groupName.replace(/\s+/g, '-')}`);
+                if (subtotalBadge) {
+                    subtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                }
+            }
+
+            // Live update category subtotal
+            if (rec.category) {
+                const categoryName = rec.category;
+                let catDailySum = 0;
+                masterDatabase[currentTabKey].forEach(r => {
+                    if (r.category === categoryName && r.days > 0) {
+                        catDailySum += (r.cost / r.days);
+                    }
+                });
+                const catBadge = document.getElementById(`cat-subtotal-${categoryName.replace(/\s+/g, '-')}`);
+                if (catBadge) {
+                    catBadge.textContent = `${formatNumber(catDailySum)} Shs/day`;
+                }
+            }
+
+            // Live update tab total & grand total
+            let tabDailySum = 0;
+            masterDatabase[currentTabKey].forEach(r => {
+                if (r.days > 0) tabDailySum += (r.cost / r.days);
+            });
+            tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
+            calculateGrandTotal();
         }
 
         function calculateGrandTotal() {
-            let totalDaily = 0;
-            Object.keys(masterDatabase).forEach(key => {
-                masterDatabase[key].forEach(rec => {
+            let overallDailySum = 0;
+            for (const tabKey in masterDatabase) {
+                masterDatabase[tabKey].forEach(rec => {
                     if (rec.days > 0) {
-                        totalDaily += (rec.cost / rec.days);
+                        overallDailySum += (rec.cost / rec.days);
                     }
                 });
-            });
-            grandTotal.textContent = `${formatNumber(totalDaily)} Shs / day`;
+            }
+            grandTotalEl.textContent = `${formatNumber(overallDailySum)} Shs / day`;
         }
 
-        window.addEventListener('DOMContentLoaded', loadDatabase);
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const dynamicScope = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-                navigator.serviceWorker.register('./sw.js', { scope: dynamicScope })
-                    .then((reg) => console.log('Service Worker registered:', reg.scope))
-                    .catch((err) => console.log('Service Worker registration error:', err));
-            });
-        }
+        window.onload = loadDatabase;
     </script>
 </body>
 </html>
