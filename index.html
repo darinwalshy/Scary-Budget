@@ -320,7 +320,31 @@
             font-weight: 700;
             color: #16a34a;
         }
-
+        
+        /* Disabled / Locked Card Style for Shared Items */
+        .data-card.disabled-card {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            opacity: 0.7;
+        }
+        
+        .data-card.disabled-card input {
+                background-color: #e2e8f0;
+                color: #94a3b8;
+                cursor: not-allowed;
+        }
+        
+        .shared-badge {
+                font-size: 0.72rem;
+                font-weight: 600;
+                color: #475569;
+                background-color: #e2e8f0;
+                padding: 3px 6px;
+                border-radius: 4px;
+                display: inline-block;
+                line-height: 1.2;
+        }
+                
         /* Sticky Grand Total Footer */
         footer {
             position: fixed;
@@ -380,14 +404,14 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.65";
-        const STORAGE_KEY = "scary_budget_v2_65_data";
+        const APP_VERSION = "v2.66";
+        const STORAGE_KEY = "scary_budget_v2_66_data";
 
         const defaultDatabase = {
             breakfast_snacks: [
                 // BREAKFAST CATEGORY
-                { category: "Breakfast", group: "BLACK TEA", item: "Water", cost: 0, days: 1 },
-                { category: "Breakfast", group: "BLACK TEA", item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Water", cost: 0, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "BLACK TEA", item: "Charcoal/Firewood", cost: 4000, days: 1, sharedKey: "charcoal" },
                 { category: "Breakfast", group: "BLACK TEA", item: "Match box", cost: 200, days: 10 },
                 { category: "Breakfast", group: "BLACK TEA", item: "Tea leaves", cost: 200, days: 7 },
                 { category: "Breakfast", group: "BLACK TEA", item: "Sugar", cost: 4000, days: 7 },
@@ -395,22 +419,22 @@
                 { category: "Breakfast", group: "BLACK TEA", item: "Cinnamon", cost: 0, days: 1 },
 
                 { category: "Breakfast", group: "PORRIDGE", item: "Porridge flour", cost: 0, days: 1 },
-                { category: "Breakfast", group: "PORRIDGE", item: "Water", cost: 0, days: 1 },
-                { category: "Breakfast", group: "PORRIDGE", item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Water", cost: 0, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "PORRIDGE", item: "Charcoal/Firewood", cost: 4000, days: 1, sharedKey: "charcoal" },
                 { category: "Breakfast", group: "PORRIDGE", item: "Match box", cost: 200, days: 10 },
                 { category: "Breakfast", group: "PORRIDGE", item: "Sugar", cost: 0, days: 1 },
                 { category: "Breakfast", group: "PORRIDGE", item: "Milk", cost: 2000, days: 1 },
 
                 { category: "Breakfast", group: "MILK", item: "Milk", cost: 2000, days: 1 },
-                { category: "Breakfast", group: "MILK", item: "Water", cost: 0, days: 1 },
-                { category: "Breakfast", group: "MILK", item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Water", cost: 0, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "MILK", item: "Charcoal/Firewood", cost: 4000, days: 1, sharedKey: "charcoal" },
                 { category: "Breakfast", group: "MILK", item: "Match box", cost: 200, days: 10 },
                 { category: "Breakfast", group: "MILK", item: "Tea leaves", cost: 0, days: 1 },
                 { category: "Breakfast", group: "MILK", item: "Ginger", cost: 0, days: 1 },
                 { category: "Breakfast", group: "MILK", item: "Cinnamon", cost: 0, days: 1 },
 
-                { category: "Breakfast", group: "LEFT-OVERS", item: "Water", cost: 0, days: 1 },
-                { category: "Breakfast", group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, days: 1 },
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Water", cost: 0, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, days: 1, sharedKey: "charcoal" },
                 { category: "Breakfast", group: "LEFT-OVERS", item: "Match box", cost: 0, days: 1 },
 
                 // SNACKS CATEGORY
@@ -433,7 +457,7 @@
             ],
             lunch_supper: [                            
                 // LUNCH SECTION BLOCK
-                { category: "Lunch", group: "LUNCH FOOD", item: "Water", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Water", cost: 0, days: 1, sharedKey: "water" },
                 { category: "Lunch", group: "LUNCH FOOD", item: "Charcoal/Firewood", cost: 0, days: 1 },
                 { category: "Lunch", group: "LUNCH FOOD", item: "Match box", cost: 0, days: 1 },
                 { category: "Lunch", group: "LUNCH FOOD", item: "Cassava", cost: 0, days: 1 },                
@@ -468,7 +492,7 @@
                 { category: "Lunch", group: "LUNCH SPICES", item: "Garlic", cost: 0, days: 1 },
 
                 // SUPPER SECTION BLOCK
-                { category: "Supper", group: "SUPPER FOOD", item: "Water", cost: 0, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Water", cost: 0, days: 1, sharedKey: "water" },
                 { category: "Supper", group: "SUPPER FOOD", item: "Charcoal/Firewood", cost: 0, days: 1 },
                 { category: "Supper", group: "SUPPER FOOD", item: "Match box", cost: 0, days: 1 },
                 { category: "Supper", group: "SUPPER FOOD", item: "Cassava", cost: 0, days: 1 },                
@@ -669,6 +693,19 @@
             renderCurrentTab();
         }
 
+        function getSharedOwner(sharedKey) {
+            if (!sharedKey) return null;
+            for (const tabKey in masterDatabase) {
+                const found = masterDatabase[tabKey].find(item => item.sharedKey === sharedKey && item.cost > 0);
+                if (found) {
+                    const tabName = tabTitleMap[tabKey] || tabKey;
+                    const location = found.group ? `${found.category || tabName} › ${found.group}` : tabName;
+                    return { item: found, location };
+                }
+            }
+            return null;
+        }
+        
         function renderCurrentTab() {
             dataCanvas.innerHTML = "";
             const records = masterDatabase[currentTabKey] || [];
@@ -779,6 +816,54 @@
         function createCardElement(rec, index) {
             const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
             const isActive = rec.cost > 0;
+            
+            // Check if another card owns this shared key
+            const ownerInfo = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
+            const isLockedByOther = ownerInfo && ownerInfo.item !== rec;
+            
+            const card = document.createElement('div');
+            card.className = `data-card ${isActive ? 'active-card' : ''} ${isLockedByOther ? 'disabled-card' : ''}`;
+            
+            card.innerHTML = `
+            <div class="card-header">${rec.item}</div>
+            <div class="card-controls">
+            <div class="input-group">
+            <label>Cost (Shs)</label>
+            <input type="text" 
+            inputmode="numeric" 
+            value="${formatInputCommas(rec.cost)}" 
+            ${isLockedByOther ? 'disabled' : ''}
+            onfocus="this.select()" 
+            oninput="handleCostInput(this, ${index})">
+            </div>
+            <div class="input-group">
+            <label>Days</label>
+            <input type="number" 
+            inputmode="numeric" 
+            step="1" 
+            value="${rec.days}" 
+            min="1" 
+            ${isLockedByOther ? 'disabled' : ''}
+            onfocus="this.select()" 
+            onchange="updateItem(${index}, 'days', this.value)">
+            </div>
+            <div class="daily-output">
+            ${isLockedByOther ? `
+            <span class="daily-label">Status</span>
+            <span class="shared-badge">Covered in<br>${ownerInfo.location}</span>
+            ` : `
+            <span class="daily-label">Daily Cost</span>
+            <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+            `}
+            </div>
+            </div>
+            `;
+            return card;
+        }  
+
+        function createCardElement(rec, index) {
+            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+            const isActive = rec.cost > 0;
 
             const card = document.createElement('div');
             card.className = `data-card ${isActive ? 'active-card' : ''}`;
@@ -869,6 +954,11 @@
                 if (r.days > 0) tabDailySum += (r.cost / r.days);
             });
             tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
+            
+            // Refresh view if editing a shared item so other cards instantly lock/unlock
+            if (rec.sharedKey) {
+                renderCurrentTab();
+            }
         }
 
         function updateItem(index, field, value) {
