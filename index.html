@@ -131,6 +131,46 @@
             gap: 12px;
         }
 
+        /* Category Section Containers (Option A) */
+        .category-block {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .category-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .category-subtotal {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #1e40af;
+            background-color: #dbeafe;
+            border: 1px solid #bfdbfe;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
         /* Accordion Section Styles */
         .accordion-section {
             border: 1px solid #cbd5e1;
@@ -315,7 +355,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.3</span>
+            <span class="version-badge" id="appVersion">v2.6</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -340,59 +380,56 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.5";
-        const STORAGE_KEY = "scary_budget_v2_5_data";
+        const APP_VERSION = "v2.6";
+        const STORAGE_KEY = "scary_budget_v2_6_data";
 
         const defaultDatabase = {
             breakfast_snacks: [
-                // BLACK TEA GROUP
-                { group: "BLACK TEA", item: "Water", cost: 0, days: 1 },
-                { group: "BLACK TEA", item: "Charcoal/Firewood", cost: 4000, days: 1 },
-                { group: "BLACK TEA", item: "Match box", cost: 200, days: 10 },
-                { group: "BLACK TEA", item: "Tea leaves", cost: 200, days: 7 },
-                { group: "BLACK TEA", item: "Sugar", cost: 4000, days: 7 },
-                { group: "BLACK TEA", item: "Ginger", cost: 100, days: 1 },
-                { group: "BLACK TEA", item: "Cinnamon", cost: 0, days: 1 },
+                // BREAKFAST CATEGORY
+                { category: "Breakfast", group: "BLACK TEA", item: "Water", cost: 0, days: 1 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Match box", cost: 200, days: 10 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Tea leaves", cost: 200, days: 7 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Sugar", cost: 4000, days: 7 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Ginger", cost: 100, days: 1 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Cinnamon", cost: 0, days: 1 },
 
-                // PORRIDGE GROUP
-                { group: "PORRIDGE", item: "Porridge flour", cost: 0, days: 1 },
-                { group: "PORRIDGE", item: "Water", cost: 0, days: 1 },
-                { group: "PORRIDGE", item: "Charcoal/Firewood", cost: 4000, days: 1 },
-                { group: "PORRIDGE", item: "Match box", cost: 200, days: 10 },
-                { group: "PORRIDGE", item: "Sugar", cost: 0, days: 1 },
-                { group: "PORRIDGE", item: "Milk", cost: 2000, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Porridge flour", cost: 0, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Water", cost: 0, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Match box", cost: 200, days: 10 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Sugar", cost: 0, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Milk", cost: 2000, days: 1 },
 
-                // MILK GROUP
-                { group: "MILK", item: "Milk", cost: 2000, days: 1 },
-                { group: "MILK", item: "Water", cost: 0, days: 1 },
-                { group: "MILK", item: "Charcoal/Firewood", cost: 4000, days: 1 },
-                { group: "MILK", item: "Match box", cost: 200, days: 10 },
-                { group: "MILK", item: "Tea leaves", cost: 0, days: 1 },
-                { group: "MILK", item: "Ginger", cost: 0, days: 1 },
-                { group: "MILK", item: "Cinnamon", cost: 0, days: 1 },
-                
-                // LEFT-OVERS GROUP
-                { group: "LEFT-OVERS", item: "Water", cost: 0, days: 1 },
-                { group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, days: 1 },
-                { group: "LEFT-OVERS", item: "Match box", cost: 0, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Milk", cost: 2000, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Water", cost: 0, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Charcoal/Firewood", cost: 4000, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Match box", cost: 200, days: 10 },
+                { category: "Breakfast", group: "MILK", item: "Tea leaves", cost: 0, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Ginger", cost: 0, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Cinnamon", cost: 0, days: 1 },
 
-                // SNACK GROUP
-                { group: "SNACK", item: "Bread", cost: 0, days: 1 },
-                { group: "SNACK", item: "Bread buns", cost: 0, days: 1 },
-                { group: "SNACK", item: "Boiled or fried cassava", cost: 0, days: 1 },
-                { group: "SNACK", item: "Mandazi", cost: 0, days: 1 },
-                { group: "SNACK", item: "Pancakes", cost: 700, days: 1 },
-                { group: "SNACK", item: "Samosas", cost: 0, days: 1 },
-                { group: "SNACK", item: "Potato chips", cost: 0, days: 1 },
-                { group: "SNACK", item: "Rice balls", cost: 0, days: 1 },
-                { group: "SNACK", item: "Pop corn", cost: 0, days: 1 },
-                { group: "SNACK", item: "Maize", cost: 0, days: 1 },
-                { group: "SNACK", item: "Chapatti", cost: 0, days: 1 },
-                { group: "SNACK", item: "Sausages", cost: 0, days: 1 },
-                { group: "SNACK", item: "G-nuts", cost: 0, days: 1 },
-                { group: "SNACK", item: "Fruit", cost: 0, days: 1 },
-                { group: "SNACK", item: "Sweets", cost: 0, days: 1 },               
-                { group: "SNACK", item: "Grasshoppers", cost: 0, days: 1 }
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Water", cost: 0, days: 1 },
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, days: 1 },
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Match box", cost: 0, days: 1 },
+
+                // SNACKS CATEGORY
+                { category: "Snacks", group: "SNACKS LIST", item: "Bread", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Bread buns", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Boiled or fried cassava", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Mandazi", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Pancakes", cost: 700, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Samosas", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Potato chips", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Rice balls", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Pop corn", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Maize", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Chapatti", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Sausages", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "G-nuts", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Fruit", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Sweets", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Grasshoppers", cost: 0, days: 1 }
             ],
             lunch_supper: [
                 { item: "Lunch - Cassava", cost: 0, days: 1 },
@@ -446,8 +483,6 @@
 
         let masterDatabase = {};
         let currentTabKey = "breakfast_snacks";
-
-        // Track accordion open/closed states across tab renders
         let openAccordions = {}; 
 
         const tabTitleMap = {
@@ -519,60 +554,93 @@
             const records = masterDatabase[currentTabKey] || [];
             let tabDailySum = 0;
 
-            // Check if items in current tab use group accordion structure
-            const hasGroups = records.some(r => r.group);
+            const hasCategories = records.some(r => r.category);
 
-            if (hasGroups) {
-                // Group items by their 'group' property
-                const groupsMap = {};
+            if (hasCategories) {
+                // Step 1: Group by Category ("Breakfast" vs "Snacks")
+                const categoryMap = {};
                 records.forEach((rec, originalIndex) => {
-                    const groupName = rec.group || 'General';
-                    if (!groupsMap[groupName]) groupsMap[groupName] = [];
-                    groupsMap[groupName].push({ ...rec, originalIndex });
+                    const categoryName = rec.category || 'General';
+                    if (!categoryMap[categoryName]) categoryMap[categoryName] = [];
+                    categoryMap[categoryName].push({ ...rec, originalIndex });
                 });
 
-                Object.keys(groupsMap).forEach(groupName => {
-                    const groupItems = groupsMap[groupName];
-                    let groupDailySum = 0;
+                Object.keys(categoryMap).forEach(catName => {
+                    const catItems = categoryMap[catName];
+                    let catDailySum = 0;
 
-                    groupItems.forEach(item => {
-                        if (item.days > 0) {
-                            groupDailySum += (item.cost / item.days);
-                        }
-                    });
+                    const catBlock = document.createElement('div');
+                    catBlock.className = 'category-block';
 
-                    tabDailySum += groupDailySum;
-                    const isOpen = !!openAccordions[groupName];
-
-                    const sectionEl = document.createElement('div');
-                    sectionEl.className = `accordion-section ${isOpen ? 'open' : ''}`;
+                    const catHeader = document.createElement('div');
+                    catHeader.className = 'category-header';
                     
-                    // Accordion Header
-                    const headerEl = document.createElement('div');
-                    headerEl.className = 'accordion-header';
-                    headerEl.onclick = () => toggleAccordion(groupName, sectionEl);
-                    headerEl.innerHTML = `
-                        <div class="accordion-title-group">
-                            <span class="accordion-icon">▶</span>
-                            <span>${groupName}</span>
-                        </div>
-                        <div class="accordion-meta">
-                            <span class="accordion-subtotal" id="subtotal-${groupName.replace(/\s+/g, '-')}">${formatNumber(groupDailySum)} Shs/day</span>
-                        </div>
-                    `;
+                    const catTitle = document.createElement('span');
+                    catTitle.className = 'category-title';
+                    catTitle.textContent = catName;
 
-                    // Accordion Container
-                    const contentEl = document.createElement('div');
-                    contentEl.className = 'accordion-content';
+                    const catBadge = document.createElement('span');
+                    catBadge.className = 'category-subtotal';
+                    catBadge.id = `cat-subtotal-${catName.replace(/\s+/g, '-')}`;
+                    
+                    catHeader.appendChild(catTitle);
+                    catHeader.appendChild(catBadge);
+                    catBlock.appendChild(catHeader);
 
-                    groupItems.forEach(item => {
-                        const card = createCardElement(item, item.originalIndex);
-                        contentEl.appendChild(card);
+                    // Step 2: Group sub-items inside category by group
+                    const groupMap = {};
+                    catItems.forEach(item => {
+                        const groupName = item.group || 'General';
+                        if (!groupMap[groupName]) groupMap[groupName] = [];
+                        groupMap[groupName].push(item);
                     });
 
-                    sectionEl.appendChild(headerEl);
-                    sectionEl.appendChild(contentEl);
-                    dataCanvas.appendChild(sectionEl);
+                    Object.keys(groupMap).forEach(groupName => {
+                        const groupItems = groupMap[groupName];
+                        let groupDailySum = 0;
+
+                        groupItems.forEach(item => {
+                            if (item.days > 0) {
+                                const daily = (item.cost / item.days);
+                                groupDailySum += daily;
+                                catDailySum += daily;
+                            }
+                        });
+
+                        const isOpen = !!openAccordions[groupName];
+
+                        const sectionEl = document.createElement('div');
+                        sectionEl.className = `accordion-section ${isOpen ? 'open' : ''}`;
+                        
+                        const headerEl = document.createElement('div');
+                        headerEl.className = 'accordion-header';
+                        headerEl.onclick = () => toggleAccordion(groupName, sectionEl);
+                        headerEl.innerHTML = `
+                            <div class="accordion-title-group">
+                                <span class="accordion-icon">▶</span>
+                                <span>${groupName}</span>
+                            </div>
+                            <div class="accordion-meta">
+                                <span class="accordion-subtotal" id="subtotal-${groupName.replace(/\s+/g, '-')}">${formatNumber(groupDailySum)} Shs/day</span>
+                            </div>
+                        `;
+
+                        const contentEl = document.createElement('div');
+                        contentEl.className = 'accordion-content';
+
+                        groupItems.forEach(item => {
+                            const card = createCardElement(item, item.originalIndex);
+                            contentEl.appendChild(card);
+                        });
+
+                        sectionEl.appendChild(headerEl);
+                        sectionEl.appendChild(contentEl);
+                        catBlock.appendChild(sectionEl);
+                    });
+
+                    catBadge.textContent = `${formatNumber(catDailySum)} Shs/day`;
+                    tabDailySum += catDailySum;
+                    dataCanvas.appendChild(catBlock);
                 });
 
             } else {
@@ -588,7 +656,6 @@
             tabSubtotal.textContent = `${formatNumber(tabDailySum)} Shs/day`;
         }
 
-        // Helper to generate a single card DOM node
         function createCardElement(rec, index) {
             const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
             const isActive = rec.cost > 0;
@@ -646,7 +713,7 @@
             card.classList.toggle('active-card', rec.cost > 0);
             card.querySelector('.daily-val').textContent = `${formatNumber(dailyCost)} Shs`;
 
-            // Live update section subtotal if inside an accordion
+            // Live update group accordion subtotal
             if (rec.group) {
                 const groupName = rec.group;
                 let groupDailySum = 0;
@@ -658,6 +725,21 @@
                 const subtotalBadge = document.getElementById(`subtotal-${groupName.replace(/\s+/g, '-')}`);
                 if (subtotalBadge) {
                     subtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                }
+            }
+
+            // Live update top category card subtotal
+            if (rec.category) {
+                const categoryName = rec.category;
+                let catDailySum = 0;
+                masterDatabase[currentTabKey].forEach(r => {
+                    if (r.category === categoryName && r.days > 0) {
+                        catDailySum += (r.cost / r.days);
+                    }
+                });
+                const catBadge = document.getElementById(`cat-subtotal-${categoryName.replace(/\s+/g, '-')}`);
+                if (catBadge) {
+                    catBadge.textContent = `${formatNumber(catDailySum)} Shs/day`;
                 }
             }
 
