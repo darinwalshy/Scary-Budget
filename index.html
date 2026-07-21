@@ -380,8 +380,8 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.6";
-        const STORAGE_KEY = "scary_budget_v2_6_data";
+        const APP_VERSION = "v2.61";
+        const STORAGE_KEY = "scary_budget_v2_61_data";
 
         const defaultDatabase = {
             breakfast_snacks: [
@@ -425,33 +425,53 @@
                 { category: "Snacks", group: "SNACKS LIST", item: "Pop corn", cost: 0, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "Maize", cost: 0, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "Chapatti", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Sausages", cost: 0, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Sausage", cost: 0, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "G-nuts", cost: 0, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "Fruit", cost: 0, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "Sweets", cost: 0, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "Grasshoppers", cost: 0, days: 1 }
             ],
-            lunch_supper: [
-                { item: "Lunch - Cassava", cost: 0, days: 1 },
-                { item: "Lunch - Posho", cost: 0, days: 1 },
-                { item: "Lunch - Matooke", cost: 0, days: 1 },
-                { item: "Lunch - Rice", cost: 0, days: 1 },
-                { item: "Lunch - Sweet Potatoes", cost: 0, days: 1 },
-                { item: "Lunch - Beans", cost: 0, days: 1 },
-                { item: "Lunch - Fish", cost: 0, days: 1 },
-                { item: "Lunch - Meat", cost: 0, days: 1 },
-                { item: "Lunch - Silver Fish", cost: 0, days: 1 },
-                { item: "Lunch - Eggplants", cost: 0, days: 1 },
-                { item: "Lunch - Cabbage", cost: 0, days: 1 },
-                { item: "Lunch - Greens (Nakati/Sukuma)", cost: 0, days: 1 },
-                { item: "Lunch - Cooking Oil & Spices", cost: 0, days: 1 },
-                { item: "Supper - Cassava", cost: 0, days: 1 },
-                { item: "Supper - Posho", cost: 0, days: 1 },
-                { item: "Supper - Matooke", cost: 0, days: 1 },
-                { item: "Supper - Rice", cost: 0, days: 1 },
-                { item: "Supper - Beans", cost: 0, days: 1 },
-                { item: "Supper - Fish / Meat", cost: 0, days: 1 },
-                { item: "Supper - Cooking Fuel / Water", cost: 0, days: 1 }
+            lunch_supper: [                            
+                // LUNCH SECTION BLOCK
+                { category: "Lunch", group: "LUNCH FOOD", item: "Water", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Charcoal/Firewood", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Match box", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava", cost: 0, days: 1 },                
+                { category: "Lunch", group: "LUNCH FOOD", item: "Posho", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Matooke", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Rice", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Sweet Potato", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Kalo", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava flour", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Irish", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Yam", cost: 0, days: 1 },
+                
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Beans", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Peas", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Fish", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Meat", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Chicken", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Pork", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Silverfish", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "G-nuts", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Eggplant", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Cabbage", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Greens (Nakati, Sukuma, Buga)", cost: 0, days: 1 },
+                
+                { category: "Lunch", group: "LUNCH SPICES", item: "Tomato", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Onion", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Salt", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Cooking Oil", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Curry Powder", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Royco", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Green Pepper", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Garlic", cost: 0, days: 1 },
+
+                // SUPPER SECTION BLOCK
+                { category: "Supper", group: "SUPPER FOODS", item: "Supper - Posho", cost: 0, days: 1 },
+                { category: "Supper", group: "SUPPER FOODS", item: "Supper - Matooke", cost: 0, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCES", item: "Supper - Beans", cost: 0, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCES", item: "Supper - Fish / Meat", cost: 0, days: 1 }
             ],
             rent_household: [
                 { item: "House Rent", cost: 0, days: 30 },
