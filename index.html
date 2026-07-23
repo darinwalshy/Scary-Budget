@@ -379,7 +379,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.68</span>
+            <span class="version-badge" id="appVersion">v2.69</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -404,8 +404,8 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.68";
-        const STORAGE_KEY = "scary_budget_v2_68_data";
+        const APP_VERSION = "v2.69";
+        const STORAGE_KEY = "scary_budget_v2_69_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -853,55 +853,6 @@
             return card;
         }
         
-        function createCardElement(rec, index) {
-            const card = document.createElement('div');
-            card.className = 'data-card';
-            card.dataset.index = index;
-            if (rec.sharedKey) card.dataset.sharedKey = rec.sharedKey;
-            if (rec.cost > 0) card.classList.add('active-card');
-
-            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
-            const sharedOwner = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
-            const isLockedByOther = sharedOwner && sharedOwner.item !== rec;
-
-            if (isLockedByOther) {
-                card.classList.add('disabled-card');
-            }
-
-            card.innerHTML = `
-                <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
-                    <span>${rec.item}</span>
-                    <span class="badge-container">${isLockedByOther ? `<span class="shared-badge">Covered in ${sharedOwner.location}</span>` : ''}</span>
-                </div>
-                <div class="card-controls">
-                    <div class="input-group">
-                        <label>Total Cost (Shs)</label>
-                        <input type="text" 
-                               inputmode="numeric" 
-                               value="${rec.cost > 0 ? rec.cost.toLocaleString('en-US') : ''}" 
-                               placeholder="0" 
-                               ${isLockedByOther ? 'disabled' : ''}
-                               onfocus="this.select()"
-                               oninput="handleCostInput(this, ${index})">
-                    </div>
-                    <div class="input-group">
-                        <label>Lasts (Days)</label>
-                        <input type="number" 
-                               value="${rec.days}" 
-                               min="1" 
-                               ${isLockedByOther ? 'disabled' : ''}
-                               onfocus="this.select()"
-                               oninput="handleDaysInput(this, ${index})">
-                    </div>
-                    <div class="daily-output">
-                        <span class="daily-label">Daily Cost</span>
-                        <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
-                    </div>
-                </div>
-            `;
-            return card;
-        }
-
         function handleCostInput(inputEl, index) {
             const rawDigits = inputEl.value.replace(/[^0-9]/g, '');
             const numVal = parseFloat(rawDigits) || 0;
