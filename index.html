@@ -379,7 +379,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.67</span>
+            <span class="version-badge" id="appVersion">v2.68</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -404,8 +404,8 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.67";
-        const STORAGE_KEY = "scary_budget_v2_67_data";
+        const APP_VERSION = "v2.68";
+        const STORAGE_KEY = "scary_budget_v2_68_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -418,218 +418,218 @@
         const defaultDatabase = {
             breakfast_snacks: [
                 // BREAKFAST CATEGORY
-                { category: "Breakfast", group: "BLACK TEA", item: "Water", cost: 0, days: 1, sharedKey: "water" },
-                { category: "Breakfast", group: "BLACK TEA", item: "Charcoal/Firewood", cost: 4000, days: 1, sharedKey: "charcoal" },
-                { category: "Breakfast", group: "BLACK TEA", item: "Match box", cost: 200, days: 10 },
-                { category: "Breakfast", group: "BLACK TEA", item: "Tea leaves", cost: 200, days: 7 },
-                { category: "Breakfast", group: "BLACK TEA", item: "Sugar", cost: 4000, days: 7 },
-                { category: "Breakfast", group: "BLACK TEA", item: "Ginger", cost: 100, days: 1 },
-                { category: "Breakfast", group: "BLACK TEA", item: "Cinnamon", cost: 0, days: 1 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "BLACK TEA", item: "Charcoal/Firewood", cost: 4000, exampleCost: 4000, days: 1, sharedKey: "charcoal" },
+                { category: "Breakfast", group: "BLACK TEA", item: "Match box", cost: 200, exampleCost: 4000, days: 10 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Tea leaves", cost: 200, exampleCost: 4000, days: 7 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Sugar", cost: 4000, exampleCost: 4000, days: 7 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Ginger", cost: 100, exampleCost: 4000, days: 1 },
+                { category: "Breakfast", group: "BLACK TEA", item: "Cinnamon", cost: 0, exampleCost: 4000, days: 1 },
 
-                { category: "Breakfast", group: "PORRIDGE", item: "Porridge flour", cost: 0, days: 1 },
-                { category: "Breakfast", group: "PORRIDGE", item: "Water", cost: 0, days: 1, sharedKey: "water" },
-                { category: "Breakfast", group: "PORRIDGE", item: "Charcoal/Firewood", cost: 4000, days: 1, sharedKey: "charcoal" },
-                { category: "Breakfast", group: "PORRIDGE", item: "Match box", cost: 200, days: 10 },
-                { category: "Breakfast", group: "PORRIDGE", item: "Sugar", cost: 0, days: 1 },
-                { category: "Breakfast", group: "PORRIDGE", item: "Milk", cost: 2000, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Porridge flour", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "PORRIDGE", item: "Charcoal/Firewood", cost: 4000, exampleCost: 4000, days: 1, sharedKey: "charcoal" },
+                { category: "Breakfast", group: "PORRIDGE", item: "Match box", cost: 200, exampleCost: 4000, days: 10 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Sugar", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Breakfast", group: "PORRIDGE", item: "Milk", cost: 2000, exampleCost: 4000, days: 1 },
 
-                { category: "Breakfast", group: "MILK", item: "Milk", cost: 2000, days: 1 },
-                { category: "Breakfast", group: "MILK", item: "Water", cost: 0, days: 1, sharedKey: "water" },
-                { category: "Breakfast", group: "MILK", item: "Charcoal/Firewood", cost: 4000, days: 1, sharedKey: "charcoal" },
-                { category: "Breakfast", group: "MILK", item: "Match box", cost: 200, days: 10 },
-                { category: "Breakfast", group: "MILK", item: "Tea leaves", cost: 0, days: 1 },
-                { category: "Breakfast", group: "MILK", item: "Ginger", cost: 0, days: 1 },
-                { category: "Breakfast", group: "MILK", item: "Cinnamon", cost: 0, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Milk", cost: 2000, exampleCost: 4000, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "MILK", item: "Charcoal/Firewood", cost: 4000, exampleCost: 4000, days: 1, sharedKey: "charcoal" },
+                { category: "Breakfast", group: "MILK", item: "Match box", cost: 200, exampleCost: 4000, days: 10 },
+                { category: "Breakfast", group: "MILK", item: "Tea leaves", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Ginger", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Breakfast", group: "MILK", item: "Cinnamon", cost: 0, exampleCost: 4000, days: 1 },
 
-                { category: "Breakfast", group: "LEFT-OVERS", item: "Water", cost: 0, days: 1, sharedKey: "water" },
-                { category: "Breakfast", group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, days: 1, sharedKey: "charcoal" },
-                { category: "Breakfast", group: "LEFT-OVERS", item: "Match box", cost: 0, days: 1 },
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, exampleCost: 4000, days: 1, sharedKey: "charcoal" },
+                { category: "Breakfast", group: "LEFT-OVERS", item: "Match box", cost: 0, exampleCost: 4000, days: 1 },
 
                 // SNACKS CATEGORY
-                { category: "Snacks", group: "SNACKS LIST", item: "Bread", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Bread buns", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Boiled or fried cassava", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Mandazi", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Pancakes", cost: 700, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Samosas", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Potato chips", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Rice balls", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Pop corn", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Maize", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Chapatti", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Sausage", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "G-nuts", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Fruit", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Sweets", cost: 0, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Grasshoppers", cost: 0, days: 1 }
+                { category: "Snacks", group: "SNACKS LIST", item: "Bread", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Bread buns", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Boiled or fried cassava", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Mandazi", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Pancakes", cost: 700, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Samosas", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Potato chips", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Rice balls", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Pop corn", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Maize", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Chapatti", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Sausage", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "G-nuts", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Fruit", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Sweets", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Grasshoppers", cost: 0, exampleCost: 4000, days: 1 }
             ],
             lunch_supper: [                            
                 // LUNCH SECTION BLOCK
-                { category: "Lunch", group: "LUNCH FOOD", item: "Water", cost: 0, days: 1, sharedKey: "water" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Charcoal/Firewood", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Match box", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava", cost: 0, days: 1 },                
-                { category: "Lunch", group: "LUNCH FOOD", item: "Posho", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Matooke", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Rice", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Sweet Potato", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Kalo", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava flour", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Irish", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Yam", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Charcoal/Firewood", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Match box", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava", cost: 0, exampleCost: 4000, days: 1 },                
+                { category: "Lunch", group: "LUNCH FOOD", item: "Posho", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Matooke", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Rice", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Sweet Potato", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Kalo", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava flour", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Irish", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Yam", cost: 0, exampleCost: 4000, days: 1 },
                 
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Beans", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Peas", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Fish", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Meat", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Chicken", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Pork", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Silverfish", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "G-nuts", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Eggplant", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Cabbage", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SAUCE", item: "Greens (Nakati, Sukuma, Buga)", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Beans", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Peas", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Fish", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Meat", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Chicken", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Pork", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Silverfish", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "G-nuts", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Eggplant", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Cabbage", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SAUCE", item: "Greens (Nakati, Sukuma, Buga)", cost: 0, exampleCost: 4000, days: 1 },
                 
-                { category: "Lunch", group: "LUNCH SPICES", item: "Tomato", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SPICES", item: "Onion", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SPICES", item: "Salt", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SPICES", item: "Cooking Oil", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SPICES", item: "Curry Powder", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SPICES", item: "Royco", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SPICES", item: "Green Pepper", cost: 0, days: 1 },
-                { category: "Lunch", group: "LUNCH SPICES", item: "Garlic", cost: 0, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Tomato", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Onion", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Salt", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Cooking Oil", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Curry Powder", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Royco", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Green Pepper", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Lunch", group: "LUNCH SPICES", item: "Garlic", cost: 0, exampleCost: 4000, days: 1 },
 
                 // SUPPER SECTION BLOCK
-                { category: "Supper", group: "SUPPER FOOD", item: "Water", cost: 0, days: 1, sharedKey: "water" },
-                { category: "Supper", group: "SUPPER FOOD", item: "Charcoal/Firewood", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Match box", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Cassava", cost: 0, days: 1 },                
-                { category: "Supper", group: "SUPPER FOOD", item: "Posho", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Matooke", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Rice", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Sweet Potato", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Kalo", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Cassava flour", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Irish", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER FOOD", item: "Yam", cost: 0, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },
+                { category: "Supper", group: "SUPPER FOOD", item: "Charcoal/Firewood", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Match box", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Cassava", cost: 0, exampleCost: 4000, days: 1 },                
+                { category: "Supper", group: "SUPPER FOOD", item: "Posho", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Matooke", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Rice", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Sweet Potato", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Kalo", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Cassava flour", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Irish", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER FOOD", item: "Yam", cost: 0, exampleCost: 4000, days: 1 },
                 
-                { category: "Supper", group: "SUPPER SAUCE", item: "Beans", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Peas", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Fish", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Meat", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Chicken", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Pork", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Silverfish", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "G-nuts", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Eggplant", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Cabbage", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SAUCE", item: "Greens (Nakati, Sukuma, Buga)", cost: 0, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Beans", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Peas", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Fish", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Meat", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Chicken", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Pork", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Silverfish", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "G-nuts", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Eggplant", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Cabbage", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SAUCE", item: "Greens (Nakati, Sukuma, Buga)", cost: 0, exampleCost: 4000, days: 1 },
                 
-                { category: "Supper", group: "SUPPER SPICES", item: "Tomato", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SPICES", item: "Onion", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SPICES", item: "Salt", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SPICES", item: "Cooking Oil", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SPICES", item: "Curry Powder", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SPICES", item: "Royco", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SPICES", item: "Green Pepper", cost: 0, days: 1 },
-                { category: "Supper", group: "SUPPER SPICES", item: "Garlic", cost: 0, days: 1 }                
+                { category: "Supper", group: "SUPPER SPICES", item: "Tomato", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SPICES", item: "Onion", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SPICES", item: "Salt", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SPICES", item: "Cooking Oil", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SPICES", item: "Curry Powder", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SPICES", item: "Royco", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SPICES", item: "Green Pepper", cost: 0, exampleCost: 4000, days: 1 },
+                { category: "Supper", group: "SUPPER SPICES", item: "Garlic", cost: 0, exampleCost: 4000, days: 1 }                
             ],
             rent_household: [
-                { item: "House Rent", cost: 0, days: 30 },
-                { item: "Soap (Household cleaning)", cost: 0, days: 30 },
-                { item: "Soap (Body cleaning)", cost: 0, days: 30 },
-                { item: "Clothes", cost: 0, days: 30 },
-                { item: "Body jelly", cost: 0, days: 30 },
-                { item: "Toilet paper", cost: 0, days: 30 },
-                { item: "Water", cost: 0, days: 30 },
-                { item: "Umeme / Light / Paraffin", cost: 0, days: 30 }
+                { item: "House Rent", cost: 0, exampleCost: 4000, days: 30 },
+                { item: "Soap (Household cleaning)", cost: 0, exampleCost: 4000, days: 30 },
+                { item: "Soap (Body cleaning)", cost: 0, exampleCost: 4000, days: 30 },
+                { item: "Clothes", cost: 0, exampleCost: 4000, days: 30 },
+                { item: "Body jelly", cost: 0, exampleCost: 4000, days: 30 },
+                { item: "Toilet paper", cost: 0, exampleCost: 4000, days: 30 },
+                { item: "Water", cost: 0, exampleCost: 4000, days: 30 },
+                { item: "Umeme / Light / Paraffin", cost: 0, exampleCost: 4000, days: 30 }
             ],
             school_fees: [        
-                { category: "School Fees", group: "Child 1", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 1", item: "Other requuirements", cost: 0, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 1", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 },
 
-                { category: "School Fees", group: "Child 2", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 2", item: "Other requuirements", cost: 0, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 2", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 },
 
-                { category: "School Fees", group: "Child 3", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 3", item: "Other requuirements", cost: 0, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 3", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 },
 
-                { category: "School Fees", group: "Child 4", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 4", item: "Other requuirements", cost: 0, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 4", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 },
 
-                { category: "School Fees", group: "Child 5", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 5", item: "Other requuirements", cost: 0, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 5", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 },
 
-                { category: "School Fees", group: "Child 6", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 6", item: "Other requuirements", cost: 0, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 6", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 },
 
-                { category: "School Fees", group: "Child 7", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 7", item: "Other requuirements", cost: 0, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 7", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 },
 
-                { category: "School Fees", group: "Child 8", item: "Fees", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Uniform", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Shoes", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Books", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Pens, Pencils", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Files, rulers, sets, rubbers", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Reem of paper", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Lunch and snacks", cost: 0, days: 120 },
-                { category: "School Fees", group: "Child 8", item: "Other requuirements", cost: 0, days: 120 }
+                { category: "School Fees", group: "Child 8", item: "Fees", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Uniform", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Shoes", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Books", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Pens, Pencils", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Files, rulers, sets, rubbers", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Reem of paper", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Lunch and snacks", cost: 0, exampleCost: 4000, days: 120 },
+                { category: "School Fees", group: "Child 8", item: "Other requuirements", cost: 0, exampleCost: 4000, days: 120 }
             ],
             other: [
-                { item: "Transport - Boda boda", cost: 0, days: 1 },
-                { item: "Transport - Taxi", cost: 0, days: 1 },
-                { item: "Medical Reserve", cost: 0, days: 120 },
-                { item: "Church - Offertories & Tithe", cost: 0, days: 7 }
+                { item: "Transport - Boda boda", cost: 0, exampleCost: 4000, days: 1 },
+                { item: "Transport - Taxi", cost: 0, exampleCost: 4000, days: 1 },
+                { item: "Medical Reserve", cost: 0, exampleCost: 4000, days: 120 },
+                { item: "Church - Offertories & Tithe", cost: 0, exampleCost: 4000, days: 7 }
             ]
         };
 
@@ -804,6 +804,55 @@
             tabSubtotal.textContent = `${formatNumber(tabDailyTotal)} Shs/day`;
         }
 
+        function createCardElement(rec, index) {
+            const card = document.createElement('div');
+            card.className = 'data-card';
+            card.dataset.index = index;
+            if (rec.sharedKey) card.dataset.sharedKey = rec.sharedKey;
+            if (rec.cost > 0) card.classList.add('active-card');
+            
+            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+            const sharedOwner = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
+            const isLockedByOther = sharedOwner && sharedOwner.item !== rec;
+            
+            if (isLockedByOther) {
+                card.classList.add('disabled-card');
+            }
+            
+            card.innerHTML = `
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>${rec.item}</span>
+            <span class="badge-container">${isLockedByOther ? `<span class="shared-badge">Covered in ${sharedOwner.location}</span>` : ''}/span>
+            </div>
+            <div class="card-controls">
+            <div class="input-group">
+            <label>Total Cost (Shs)</label>
+            <input type="text" 
+            inputmode="numeric" 
+            value="${rec.cost > 0 ? rec.cost.toLocaleString('en-US') : ''}" 
+            placeholder="${rec.exampleCost ? 'e.g. ' + rec.exampleCost.toLocaleString('en-US') : '0'}" 
+            ${isLockedByOther ? 'disabled' : ''}
+            onfocus="this.select()"
+            oninput="handleCostInput(this, ${index})">
+            </div>
+            <div class="input-group">
+            <label>Lasts (Days)</label>
+            <input type="number" 
+            value="${rec.days}" 
+            min="1" 
+            ${isLockedByOther ? 'disabled' : ''}
+            onfocus="this.select()"
+            oninput="handleDaysInput(this, ${index})">
+            </div>
+            <div class="daily-output">
+            <span class="daily-label">Daily Cost</span>
+            <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+            </div>
+            </div>
+            `;
+            return card;
+        }
+        
         function createCardElement(rec, index) {
             const card = document.createElement('div');
             card.className = 'data-card';
