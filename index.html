@@ -344,33 +344,62 @@
             display: inline-block;
             line-height: 1.2;
         }
-                
-        /* Sticky Grand Total Footer */
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 600px;
-            background-color: #0f172a;
-            color: #ffffff;
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
-            z-index: 100;
+
+        /* Sticky Footer Layout Adjustments */
+        .footer-sticky {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: #0f172a;
+          color: #ffffff;
+          padding: 12px 16px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+          z-index: 1000;
+        }
+        
+        /* Compact Reset Button */
+        .btn-reset {
+          background-color: transparent;
+          color: #94a3b8; /* Muted cool grey to prevent accidental visual distraction */
+          border: 1px solid #334155;
+          border-radius: 8px;
+          padding: 6px 12px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          transition: all 0.2s ease;
+          user-select: none;
+          -webkit-tap-highlight-color: transparent;
         }
 
+        .btn-reset:active {
+          background-color: #ef4444; /* Flashes subtle red when tapped */
+          color: #ffffff;
+          border-color: #ef4444;
+          transform: scale(0.96);
+        }
+        
+        .footer-total-container {
+          text-align: right;
+        }
+        
         .footer-label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #94a3b8;
+          font-size: 0.75rem;
+          color: #94a3b8;
+          display: block;
         }
-
-        .footer-total {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #4ade80;
+        
+        .footer-amount {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #38bdf8;
         }
     </style>
 </head>
@@ -399,10 +428,22 @@
     </main>
 
     <footer>
-        <div class="footer-label">Grand Daily Total:</div>
-        <div id="grandTotal" class="footer-total">0 Shs / day</div>
+        <div class="footer-sticky">
+          <button 
+            id="resetBtn" 
+            class="btn-reset" 
+            onclick="confirmFactoryReset()" 
+            title="Reset to factory defaults"
+          >
+            🔄 Reset
+          </button>
+          <div class="footer-total-container">
+            <span class="footer-label">Grand Total:</span>
+            <span id="grandTotal" class="footer-amount">0 Shs / day</span>
+          </div>
+        </div>
     </footer>
-
+    
     <script>
         const APP_VERSION = "v2.71";
         const STORAGE_KEY = "scary_budget_v2_71_data";
@@ -1042,6 +1083,19 @@
             grandTotalEl.textContent = `${formatNumber(overallDailySum)} Shs / day`;
         }
 
+        function confirmFactoryReset() {
+          const confirmed = window.confirm(
+            "⚠️ Reset Scary Budget?\n\nThis will wipe all your custom costs and day values and restore factory numbers. This action cannot be undone."
+          );
+        
+          if (confirmed) {
+            // 1. Remove stored user entries
+            localStorage.removeItem(STORAGE_KEY);
+        
+            // 2. Reload database from fresh defaultDatabase clone & re-render view
+            loadDatabase();
+          }
+        }        
         window.onload = loadDatabase;
     </script>
 </body>
