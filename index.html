@@ -379,7 +379,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.69</span>
+            <span class="version-badge" id="appVersion">v2.70</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -404,8 +404,8 @@
     </footer>
 
     <script>
-        const APP_VERSION = "v2.69";
-        const STORAGE_KEY = "scary_budget_v2_69_data";
+        const APP_VERSION = "v2.70";
+        const STORAGE_KEY = "scary_budget_v2_70_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -650,16 +650,47 @@
         function loadDatabase() {
             appVersionEl.textContent = APP_VERSION;
             const stored = localStorage.getItem(STORAGE_KEY);
-            if (!stored) {
-                masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
-            } else {
-                masterDatabase = JSON.parse(stored);
+            
+            // 1. Always start with a fresh deep clone of the latest defaultDatabase structure
+            masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
+        
+            // 2. If user data exists in localStorage, overlay their entered costs and days
+            if (stored) {
+                try {
+                    const parsedStored = JSON.parse(stored);
+        
+                    for (const tabKey in masterDatabase) {
+                        if (parsedStored[tabKey] && Array.isArray(parsedStored[tabKey])) {
+                            masterDatabase[tabKey].forEach(newItem => {
+                                // Match existing items by sharedKey first, then fall back to item name
+                                const existingMatch = parsedStored[tabKey].find(
+                                    oldItem => (newItem.sharedKey && oldItem.sharedKey === newItem.sharedKey) || 
+                                               oldItem.item === newItem.item
+                                );
+        
+                                // If user has saved progress for this item, preserve their values
+                                if (existingMatch) {
+                                    if (typeof existingMatch.cost === 'number') {
+                                        newItem.cost = existingMatch.cost;
+                                    }
+                                    if (typeof existingMatch.days === 'number' && existingMatch.days > 0) {
+                                        newItem.days = existingMatch.days;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error reading stored data, using clean defaults.", e);
+                }
             }
+        
+            // 3. Save the merged version back to localStorage and render
             saveDatabase();
             renderCurrentTab();
             calculateGrandTotal();
         }
-
+        
         function saveDatabase() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(masterDatabase));
         }
