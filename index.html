@@ -408,7 +408,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.72</span>
+            <span class="version-badge" id="appVersion">v2.73</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -445,8 +445,8 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v2.72";
-        const STORAGE_KEY = "scary_budget_v2_72_data";
+        const APP_VERSION = "v2.73";
+        const STORAGE_KEY = "scary_budget_v2_73_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -883,7 +883,7 @@
             if (rec.sharedKey) card.dataset.sharedKey = rec.sharedKey;
             if (rec.cost > 0) card.classList.add('active-card');
             
-            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+                        const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
             const sharedOwner = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
             const isLockedByOther = sharedOwner && sharedOwner.item !== rec;
             
@@ -894,7 +894,7 @@
             card.innerHTML = `
             <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
             <span>${rec.item}</span>
-            <span class="badge-container">${isLockedByOther ? `<span class="shared-badge">Covered in ${sharedOwner.location}</span>` : ''}/span>
+            <span class="badge-container">${isLockedByOther ? `<span class="shared-badge">Covered in ${sharedOwner.location}</span>` : ''}</span>
             </div>
             <div class="card-controls">
             <div class="input-group">
@@ -917,8 +917,10 @@
             oninput="handleDaysInput(this, ${index})">
             </div>
             <div class="daily-output">
-            <span class="daily-label">Daily Cost</span>
-            <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+            ${dailyCost > 0 ? `
+                <span class="daily-label">Daily Cost</span>
+                <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+            ` : ''}
             </div>
             </div>
             `;
@@ -935,13 +937,16 @@
             currentRec.cost = numVal;
             saveDatabase();
 
-            const card = inputEl.closest('.data-card');
+                        const card = inputEl.closest('.data-card');
             const dailyCost = currentRec.days > 0 ? (currentRec.cost / currentRec.days) : 0;
             
             card.classList.toggle('active-card', currentRec.cost > 0);
-            const dailyValEl = card.querySelector('.daily-val');
-            if (dailyValEl) {
-                dailyValEl.textContent = `${formatNumber(dailyCost)} Shs`;
+            const dailyOutputEl = card.querySelector('.daily-output');
+            if (dailyOutputEl) {
+                dailyOutputEl.innerHTML = dailyCost > 0 ? `
+                    <span class="daily-label">Daily Cost</span>
+                    <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+                ` : '';
             }
 
             // Update shared key locks across visible items in-place
@@ -1023,13 +1028,16 @@
             masterDatabase[currentTabKey][index].days = numVal;
             saveDatabase();
 
-            const card = inputEl.closest('.data-card');
+                        const card = inputEl.closest('.data-card');
             const rec = masterDatabase[currentTabKey][index];
             const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
 
-            const dailyValEl = card.querySelector('.daily-val');
-            if (dailyValEl) {
-                dailyValEl.textContent = `${formatNumber(dailyCost)} Shs`;
+            const dailyOutputEl = card.querySelector('.daily-output');
+            if (dailyOutputEl) {
+                dailyOutputEl.innerHTML = dailyCost > 0 ? `
+                    <span class="daily-label">Daily Cost</span>
+                    <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+                ` : '';
             }
 
             // Live update group subtotal
