@@ -233,6 +233,10 @@
             border-radius: 12px;
         }
 
+        .accordion-subtotal:empty {
+            display: none;
+        }
+
         .accordion-content {
             display: none;
             padding: 12px;
@@ -411,7 +415,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.76</span>
+            <span class="version-badge" id="appVersion">v2.77</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -448,8 +452,8 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v2.76";
-        const STORAGE_KEY = "scary_budget_v2_76_data";
+        const APP_VERSION = "v2.77";
+        const STORAGE_KEY = "scary_budget_v2_77_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -678,7 +682,7 @@
             ]
         };
 
-       let masterDatabase = {};
+        let masterDatabase = {};
         let currentTabKey = "breakfast_snacks";
 
         // DOM elements
@@ -827,7 +831,7 @@
                                     <span>${groupName}</span>
                                 </div>
                                 <div class="accordion-meta">
-                                    <span class="accordion-subtotal" id="subtotal-${groupName.replace(/\s+/g, '-')}">0 Shs/day</span>
+                                    <span class="accordion-subtotal" id="subtotal-${groupName.replace(/\s+/g, '-')}"></span>
                                 </div>
                             `;
 
@@ -843,7 +847,13 @@
                                 }
                             });
 
-                            head.querySelector('.accordion-subtotal').textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                            const groupSubtotalBadge = head.querySelector('.accordion-subtotal');
+                            if (groupDailySum > 0) {
+                                groupSubtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                            } else {
+                                groupSubtotalBadge.textContent = '';
+                            }
+
                             accordion.appendChild(head);
                             accordion.appendChild(body);
                             catBlock.appendChild(accordion);
@@ -887,7 +897,7 @@
             if (rec.sharedKey) card.dataset.sharedKey = rec.sharedKey;
             if (rec.cost > 0) card.classList.add('active-card');
             
-                        const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
             const sharedOwner = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
             const isLockedByOther = sharedOwner && sharedOwner.item !== rec;
             
@@ -941,7 +951,7 @@
             currentRec.cost = numVal;
             saveDatabase();
 
-                        const card = inputEl.closest('.data-card');
+            const card = inputEl.closest('.data-card');
             const dailyCost = currentRec.days > 0 ? (currentRec.cost / currentRec.days) : 0;
             
             card.classList.toggle('active-card', currentRec.cost > 0);
@@ -969,7 +979,11 @@
                 });
                 const subtotalBadge = document.getElementById(`subtotal-${groupName.replace(/\s+/g, '-')}`);
                 if (subtotalBadge) {
-                    subtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                    if (groupDailySum > 0) {
+                        subtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                    } else {
+                        subtotalBadge.textContent = '';
+                    }
                 }
             }
 
@@ -1032,7 +1046,7 @@
             masterDatabase[currentTabKey][index].days = numVal;
             saveDatabase();
 
-                        const card = inputEl.closest('.data-card');
+            const card = inputEl.closest('.data-card');
             const rec = masterDatabase[currentTabKey][index];
             const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
 
@@ -1055,7 +1069,11 @@
                 });
                 const subtotalBadge = document.getElementById(`subtotal-${groupName.replace(/\s+/g, '-')}`);
                 if (subtotalBadge) {
-                    subtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                    if (groupDailySum > 0) {
+                        subtotalBadge.textContent = `${formatNumber(groupDailySum)} Shs/day`;
+                    } else {
+                        subtotalBadge.textContent = '';
+                    }
                 }
             }
 

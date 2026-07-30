@@ -2,7 +2,7 @@
 // 🛠️ UNIQUE IDENTIFIERS FOR THIS APP
 // ==========================================
 const BASE_PREFIX = 'scary_budget_v1'; 
-const APP_PREFIX = `${BASE_PREFIX}2_76_`; // Bumped version to force cache updates
+const APP_PREFIX = `${BASE_PREFIX}2_77_`; // Bumped version to force cache updates
 const CACHE_NAME = APP_PREFIX + 'cache';
 
 // Double-check: Match your exact GitHub repo casing/spelling
