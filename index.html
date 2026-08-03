@@ -415,7 +415,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.77</span>
+            <span class="version-badge" id="appVersion">v2.78</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -452,8 +452,8 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v2.77";
-        const STORAGE_KEY = "scary_budget_v2_77_data";
+        const APP_VERSION = "v2.78";
+        const STORAGE_KEY = "scary_budget_v2_78_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -495,37 +495,43 @@
                 { category: "Breakfast", group: "LEFT-OVERS", item: "Match box", cost: 0, exampleCost: 100, days: 7, sharedKey: "matchBox" },
 
                 // SNACKS CATEGORY
-                { category: "Snacks", group: "SNACKS LIST", item: "Bread", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Bread buns", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Boiled or fried cassava", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Mandazi", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Pancakes", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Samosas", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Potato chips", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Rice balls", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Pop corn", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Maize", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Chapatti", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Sausage", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "G-nuts", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Fruit", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Sweets", cost: 0, exampleCost: 4000, days: 1 },
-                { category: "Snacks", group: "SNACKS LIST", item: "Grasshoppers", cost: 0, exampleCost: 4000, days: 1 }
+                { category: "Snacks", group: "SNACKS LIST", item: "Bread buns", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Boiled or fried cassava", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Mandazi", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Pancakes", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Samosas", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Potato chips", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Rice balls", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Pop corn", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Maize", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Chapatti", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Sweets", cost: 0, exampleCost: 500, days: 1 },                
+                { category: "Snacks", group: "SNACKS LIST", item: "Bread", cost: 0, exampleCost: 6000, days: 4 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Sausage", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "G-nuts", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Fruit", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "SNACKS LIST", item: "Grasshoppers", cost: 0, exampleCost: 500, days: 1 },
+
+                { category: "Snacks", group: "DRINKING", item: "Munanas", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "DRINKING", item: "Bushera", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "DRINKING", item: "Soda", cost: 0, exampleCost: 1000, days: 1 },
+                { category: "Snacks", group: "DRINKING", item: "Katunda", cost: 0, exampleCost: 500, days: 1 },
+                { category: "Snacks", group: "DRINKING", item: "Kachungwa", cost: 0, exampleCost: 1000, days: 1 }
             ],
             lunch_supper: [                            
                 // LUNCH SECTION BLOCK
-                { category: "Lunch", group: "LUNCH FOOD", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava flour", cost: 0, exampleCost: 1800, days: 1, sharedKey: "cassavaFlour" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Posho", cost: 0, exampleCost: 2800, days: 1, sharedKey: "posho" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Rice", cost: 0, exampleCost: 4500, days: 1, sharedKey: "rice" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Sweet Potato", cost: 0, exampleCost: 3000, days: 1, sharedKey: "sweetPotato" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava", cost: 0, exampleCost: 4000, days: 1, sharedKey: "cassava" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Matooke", cost: 0, exampleCost: 5000, days: 1, sharedKey: "matooke" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Kalo", cost: 0, exampleCost: 4000, days: 1, sharedKey: "kalo" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Irish", cost: 0, exampleCost: 6000, days: 1, sharedKey: "irish" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Yam", cost: 0, exampleCost: 5000, days: 1, sharedKey: "yam" },
                 { category: "Lunch", group: "LUNCH FOOD", item: "Charcoal/Firewood", cost: 0, exampleCost: 4000, days: 1, sharedKey: "charcoal" },
                 { category: "Lunch", group: "LUNCH FOOD", item: "Match box", cost: 0, exampleCost: 4000, days: 1, sharedKey: "matchBox" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava", cost: 0, exampleCost: 4000, days: 1, sharedKey: "cassava" },                
-                { category: "Lunch", group: "LUNCH FOOD", item: "Posho", cost: 0, exampleCost: 4000, days: 1, sharedKey: "posho" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Matooke", cost: 0, exampleCost: 4000, days: 1, sharedKey: "matooke" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Rice", cost: 0, exampleCost: 4000, days: 1, sharedKey: "rice" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Sweet Potato", cost: 0, exampleCost: 4000, days: 1, sharedKey: "sweetPotato" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Kalo", cost: 0, exampleCost: 4000, days: 1, sharedKey: "kalo" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Cassava flour", cost: 0, exampleCost: 4000, days: 1, sharedKey: "cassavaFlour" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Irish", cost: 0, exampleCost: 4000, days: 1, sharedKey: "irish" },
-                { category: "Lunch", group: "LUNCH FOOD", item: "Yam", cost: 0, exampleCost: 4000, days: 1, sharedKey: "yam" },
+                { category: "Lunch", group: "LUNCH FOOD", item: "Water", cost: 0, exampleCost: 4000, days: 1, sharedKey: "water" },                
 
                 { category: "Lunch", group: "LUNCH SAUCE", item: "Beans", cost: 0, exampleCost: 4000, days: 1, sharedKey: "beans" },
                 { category: "Lunch", group: "LUNCH SAUCE", item: "Peas", cost: 0, exampleCost: 4000, days: 1, sharedKey: "peas" },
