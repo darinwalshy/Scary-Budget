@@ -415,7 +415,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.79</span>
+            <span class="version-badge" id="appVersion">v2.80</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -452,8 +452,8 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v2.79";
-        const STORAGE_KEY = "scary_budget_v2_79_data";
+        const APP_VERSION = "v2.80";
+        const STORAGE_KEY = "scary_budget_v2_80_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -905,47 +905,52 @@
             card.className = 'data-card';
             card.dataset.index = index;
             if (rec.sharedKey) card.dataset.sharedKey = rec.sharedKey;
-            if (rec.cost > 0) card.classList.add('active-card');
             
-            const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
             const sharedOwner = rec.sharedKey ? getSharedOwner(rec.sharedKey) : null;
             const isLockedByOther = sharedOwner && sharedOwner.item !== rec;
+
+            if (rec.cost > 0) card.classList.add('active-card');
+            if (isLockedByOther) card.classList.add('disabled-card');
+
+            const dailyCost = (rec.days > 0 && !isLockedByOther) ? (rec.cost / rec.days) : 0;
             
-            if (isLockedByOther) {
-                card.classList.add('disabled-card');
-            }
-            
+            // Determine input display values:
+            // If locked, wipe value AND placeholder so the field is completely blank
+            const costValue = isLockedByOther ? '' : (rec.cost > 0 ? rec.cost.toLocaleString('en-US') : '');
+            const costPlaceholder = isLockedByOther ? '' : (rec.exampleCost ? 'e.g. ' + rec.exampleCost.toLocaleString('en-US') : '0');
+            const daysValue = isLockedByOther ? '' : rec.days;
+
             card.innerHTML = `
             <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
-            <span>${rec.item}</span>
-            <span class="badge-container">${isLockedByOther ? `<span class="shared-badge">Covered in ${sharedOwner.location}</span>` : ''}</span>
+                <span>${rec.item}</span>
+                <span class="badge-container">${isLockedByOther ? `<span class="shared-badge">Covered in ${sharedOwner.location}</span>` : ''}</span>
             </div>
             <div class="card-controls">
-            <div class="input-group">
-            <label>Total Cost (Shs)</label>
-            <input type="text" 
-            inputmode="numeric" 
-            value="${rec.cost > 0 ? rec.cost.toLocaleString('en-US') : ''}" 
-            placeholder="${rec.exampleCost ? 'e.g. ' + rec.exampleCost.toLocaleString('en-US') : '0'}" 
-            ${isLockedByOther ? 'disabled' : ''}
-            onfocus="this.select()"
-            oninput="handleCostInput(this, ${index})">
-            </div>
-            <div class="input-group">
-            <label>Lasts (Days)</label>
-            <input type="number" 
-            value="${rec.days}" 
-            min="1" 
-            ${isLockedByOther ? 'disabled' : ''}
-            onfocus="this.select()"
-            oninput="handleDaysInput(this, ${index})">
-            </div>
-            <div class="daily-output">
-            ${dailyCost > 0 ? `
-                <span class="daily-label">Daily Cost</span>
-                <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
-            ` : ''}
-            </div>
+                <div class="input-group">
+                    <label>Total Cost (Shs)</label>
+                    <input type="text" 
+                        inputmode="numeric" 
+                        value="${costValue}" 
+                        placeholder="${costPlaceholder}" 
+                        ${isLockedByOther ? 'disabled' : ''}
+                        onfocus="this.select()"
+                        oninput="handleCostInput(this, ${index})">
+                </div>
+                <div class="input-group">
+                    <label>Lasts (Days)</label>
+                    <input type="number" 
+                        value="${daysValue}" 
+                        min="1" 
+                        ${isLockedByOther ? 'disabled' : ''}
+                        onfocus="this.select()"
+                        oninput="handleDaysInput(this, ${index})">
+                </div>
+                <div class="daily-output">
+                    ${dailyCost > 0 ? `
+                        <span class="daily-label">Daily Cost</span>
+                        <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+                    ` : ''}
+                </div>
             </div>
             `;
             return card;
@@ -1021,6 +1026,7 @@
             calculateGrandTotal();
         }
 
+
         function updateSharedKeyLocks(sharedKey) {
             const sharedOwner = getSharedOwner(sharedKey);
             const cards = dataCanvas.querySelectorAll(`.data-card[data-shared-key="${sharedKey}"]`);
@@ -1031,19 +1037,45 @@
                 const isLockedByOther = sharedOwner && sharedOwner.item !== rec;
                 
                 const inputs = card.querySelectorAll('input');
+                const costInput = inputs[0];
+                const daysInput = inputs[1];
                 const badgeContainer = card.querySelector('.badge-container');
+                const dailyOutputEl = card.querySelector('.daily-output');
 
                 if (isLockedByOther) {
+                    // Lock card & blot out all numbers and placeholders
                     card.classList.add('disabled-card');
+                    card.classList.remove('active-card');
                     inputs.forEach(input => input.disabled = true);
+
+                    costInput.value = '';
+                    costInput.placeholder = '';
+                    daysInput.value = '';
+
                     if (badgeContainer) {
                         badgeContainer.innerHTML = `<span class="shared-badge">Covered in ${sharedOwner.location}</span>`;
                     }
-                } else {
+                    if (dailyOutputEl) {
+                        dailyOutputEl.innerHTML = '';
+                    }
+                } else if (!sharedOwner) {
+                    // Unlock card & restore original record data and example placeholders
                     card.classList.remove('disabled-card');
+                    card.classList.toggle('active-card', rec.cost > 0);
                     inputs.forEach(input => input.disabled = false);
-                    if (badgeContainer) {
-                        badgeContainer.innerHTML = '';
+
+                    costInput.value = rec.cost > 0 ? rec.cost.toLocaleString('en-US') : '';
+                    costInput.placeholder = rec.exampleCost ? 'e.g. ' + rec.exampleCost.toLocaleString('en-US') : '0';
+                    daysInput.value = rec.days;
+
+                    if (badgeContainer) badgeContainer.innerHTML = '';
+
+                    const dailyCost = rec.days > 0 ? (rec.cost / rec.days) : 0;
+                    if (dailyOutputEl) {
+                        dailyOutputEl.innerHTML = dailyCost > 0 ? `
+                            <span class="daily-label">Daily Cost</span>
+                            <span class="daily-val">${formatNumber(dailyCost)} Shs</span>
+                        ` : '';
                     }
                 }
             });
