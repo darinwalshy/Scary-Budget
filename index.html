@@ -294,7 +294,7 @@
             font-weight: 500;
         }
 
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
             padding: 6px 8px;
             font-size: 0.88rem;
@@ -305,7 +305,7 @@
             outline: none;
         }
 
-        .input-group input:focus {
+        .input-group input:focus, .input-group select:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
         }
@@ -350,6 +350,89 @@
             border-radius: 4px;
             display: inline-block;
             line-height: 1.2;
+        }
+
+        /* Summary Tab Controls and Cards */
+        .summary-controls {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .summary-controls label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .summary-controls select {
+            padding: 6px 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            color: #0f172a;
+            cursor: pointer;
+        }
+
+        .summary-card {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .summary-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .summary-card-amount {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background-color: #f1f5f9;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #2563eb;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .summary-card-footer {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
         }
 
         /* Sticky Footer Layout Adjustments */
@@ -415,7 +498,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.83</span>
+            <span class="version-badge" id="appVersion">v2.84</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -423,6 +506,7 @@
             <button class="tab-btn" onclick="switchTab('rent_household')">🏠 Rent & Household</button>
             <button class="tab-btn" onclick="switchTab('school_fees')">📚 School Fees</button>
             <button class="tab-btn" onclick="switchTab('other')">🧩 Other</button>
+            <button class="tab-btn" onclick="switchTab('summary')">📊 Summary</button>
         </div>
     </header>
 
@@ -445,22 +529,31 @@
             🔄 Reset
           </button>
           <div class="footer-total-container">
-            <span class="footer-label">Grand Total:</span>
+            <span class="footer-label" id="footerLabel">Grand Total:</span>
             <span id="grandTotal" class="footer-amount">0 Shs / day</span>
           </div>
         </div>
     </footer>
     
     <script>
-        const APP_VERSION = "v2.83";
-        const STORAGE_KEY = "scary_budget_v2_83_data";
+        const APP_VERSION = "v2.84";
+        const STORAGE_KEY = "scary_budget_v2_84_data";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
             lunch_supper: "Lunch & Supper",
             rent_household: "Rent & Household",
             school_fees: "School Fees",
-            other: "Other"
+            other: "Other",
+            summary: "Summary & Overview"
+        };
+
+        const tabIconMap = {
+            breakfast_snacks: "☕",
+            lunch_supper: "🍲",
+            rent_household: "🏠",
+            school_fees: "📚",
+            other: "🧩"
         };
 
         const defaultDatabase = {
@@ -710,6 +803,7 @@
 
         let masterDatabase = {};
         let currentTabKey = "breakfast_snacks";
+        let summaryTimeframe = 1; // Default multiplier: 1 = Daily, 30 = Monthly, 365 = Yearly
 
         // DOM elements
         const appVersionEl = document.getElementById('appVersion');
@@ -717,6 +811,7 @@
         const tabSubtotal = document.getElementById('tabSubtotal');
         const dataCanvas = document.getElementById('dataCanvas');
         const grandTotalEl = document.getElementById('grandTotal');
+        const footerLabelEl = document.getElementById('footerLabel');
 
         function formatNumber(num) {
             return Math.round(num).toLocaleString('en-US');
@@ -793,7 +888,8 @@
                 'lunch_supper': 1,
                 'rent_household': 2,
                 'school_fees': 3,
-                'other': 4
+                'other': 4,
+                'summary': 5
             };
             const btnIndex = btnMap[tabKey];
             if (btnIndex !== undefined) {
@@ -801,11 +897,17 @@
             }
 
             renderCurrentTab();
+            calculateGrandTotal();
         }
 
         function renderCurrentTab() {
             tabTitle.textContent = tabTitleMap[currentTabKey];
             dataCanvas.innerHTML = '';
+
+            if (currentTabKey === 'summary') {
+                renderSummaryTab();
+                return;
+            }
 
             const list = masterDatabase[currentTabKey] || [];
             let tabDailyTotal = 0;
@@ -914,6 +1016,68 @@
                 if (rec.days > 0) tabDailyTotal += (rec.cost / rec.days);
             });
             tabSubtotal.textContent = `${formatNumber(tabDailyTotal)} Shs/day`;
+        }
+
+        function renderSummaryTab() {
+            // Render Timeframe Selector Bar
+            const controls = document.createElement('div');
+            controls.className = 'summary-controls';
+            controls.innerHTML = `
+                <label for="timeframeSelect">Select Horizon:</label>
+                <select id="timeframeSelect" onchange="handleTimeframeChange(this.value)">
+                    <option value="1" ${summaryTimeframe === 1 ? 'selected' : ''}>Daily</option>
+                    <option value="30" ${summaryTimeframe === 30 ? 'selected' : ''}>Monthly (30d)</option>
+                    <option value="365" ${summaryTimeframe === 365 ? 'selected' : ''}>Yearly (365d)</option>
+                </select>
+            `;
+            dataCanvas.appendChild(controls);
+
+            // Calculate daily rates and total across categories
+            let grandDailyTotal = 0;
+            const categoryTotals = {};
+
+            for (const key in tabIconMap) {
+                let catDailySum = 0;
+                (masterDatabase[key] || []).forEach(rec => {
+                    if (rec.days > 0) catDailySum += (rec.cost / rec.days);
+                });
+                categoryTotals[key] = catDailySum;
+                grandDailyTotal += catDailySum;
+            }
+
+            const tfUnitLabel = summaryTimeframe === 1 ? 'day' : (summaryTimeframe === 30 ? 'month' : 'year');
+            const calculatedGrandTotal = grandDailyTotal * summaryTimeframe;
+
+            tabSubtotal.textContent = `${formatNumber(calculatedGrandTotal)} Shs / ${tfUnitLabel}`;
+
+            // Render Category Breakdown Cards
+            for (const key in tabIconMap) {
+                const catDailySum = categoryTotals[key];
+                const adjustedAmount = catDailySum * summaryTimeframe;
+                const percentage = grandDailyTotal > 0 ? ((catDailySum / grandDailyTotal) * 100).toFixed(1) : "0.0";
+
+                const summaryCard = document.createElement('div');
+                summaryCard.className = 'summary-card';
+                summaryCard.innerHTML = `
+                    <div class="summary-card-header">
+                        <span class="summary-card-title">${tabIconMap[key]} ${tabTitleMap[key]}</span>
+                        <span class="summary-card-amount">${formatNumber(adjustedAmount)} Shs / ${tfUnitLabel}</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: ${percentage}%;"></div>
+                    </div>
+                    <div class="summary-card-footer">
+                        <span>${percentage}% of budget</span>
+                    </div>
+                `;
+                dataCanvas.appendChild(summaryCard);
+            }
+        }
+
+        function handleTimeframeChange(value) {
+            summaryTimeframe = parseInt(value, 10) || 1;
+            renderCurrentTab();
+            calculateGrandTotal();
         }
 
         function createCardElement(rec, index) {
@@ -1042,7 +1206,6 @@
             calculateGrandTotal();
         }
 
-
         function updateSharedKeyLocks(sharedKey) {
             const sharedOwner = getSharedOwner(sharedKey);
             const cards = dataCanvas.querySelectorAll(`.data-card[data-shared-key="${sharedKey}"]`);
@@ -1168,7 +1331,13 @@
                     }
                 });
             }
-            grandTotalEl.textContent = `${formatNumber(overallDailySum)} Shs / day`;
+
+            const isSummary = currentTabKey === 'summary';
+            const multiplier = isSummary ? summaryTimeframe : 1;
+            const tfUnitLabel = multiplier === 1 ? 'day' : (multiplier === 30 ? 'month' : 'year');
+
+            footerLabelEl.textContent = isSummary ? `Grand Total (${tfUnitLabel}):` : "Grand Total:";
+            grandTotalEl.textContent = `${formatNumber(overallDailySum * multiplier)} Shs / ${tfUnitLabel}`;
         }
 
         function confirmFactoryReset() {
