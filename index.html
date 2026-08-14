@@ -1062,7 +1062,7 @@
             for (const key in tabIconMap) {
                 const catDailySum = categoryTotals[key];
                 const adjustedAmount = catDailySum * summaryTimeframe;
-                const percentage = grandDailyTotal > 0 ? ((catDailySum / grandDailyTotal) * 100).toFixed(1) : "0.0";
+                const percentage = grandDailyTotal > 0 ? ((catDailySum / grandDailyTotal) * 100).toFixed(0) : "0";
 
                 const summaryCard = document.createElement('div');
                 summaryCard.className = 'summary-card';
