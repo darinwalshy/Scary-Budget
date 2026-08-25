@@ -536,12 +536,7 @@
             background-color: #1d4ed8;
         }
 
-        .btn-load-profile {
-            background-color: #0f172a;
-            color: #ffffff;
-        }
-
-        .btn-load-profile:disabled, .btn-delete-profile:disabled {
+        .btn-delete-profile:disabled {
             background-color: #e2e8f0;
             color: #94a3b8;
             cursor: not-allowed;
@@ -638,7 +633,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v3.01</span>
+            <span class="version-badge" id="appVersion">v3.02</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -676,7 +671,7 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v3.00";
+        const APP_VERSION = "v3.02";
         const STORAGE_KEY = "scary_budget_v2_91_data";
         const PROFILES_KEY = "scary_budget_saved_profiles";
         const ACTIVE_PROFILE_KEY = "scary_budget_active_profile_meta";
@@ -1326,19 +1321,18 @@
                     </div>
                 </div>
 
-                <!-- Load & Delete Block -->
+                <!-- Auto-Load & Delete Block -->
                 <div class="profile-section-block">
-                    <span class="profile-section-label">Manage Saved Files</span>
+                    <span class="profile-section-label">Load Saved File</span>
                     <div class="profile-select-row">
-                        <select id="profileSelect">
-                            <option value="">${profileKeys.length === 0 ? '-- No saved files --' : '-- Select File --'}</option>
-                            ${profileKeys.map(k => `<option value="${k}">${k}</option>`).join('')}
+                        <select id="profileSelect" onchange="handleSelectAndLoadProfile(this.value)">
+                            <option value="">${profileKeys.length === 0 ? '-- No saved files --' : '-- Select File to Load --'}</option>
+                            ${profileKeys.map(k => `<option value="${k}" ${activeProfileName === k ? 'selected' : ''}>${k}</option>`).join('')}
                         </select>
-                        <button class="btn-profile-action btn-load-profile" id="btnLoadProfile" onclick="handleLoadProfile()" ${profileKeys.length === 0 ? 'disabled' : ''}>📂 Load</button>
                         <button class="btn-profile-action btn-delete-profile" id="btnDeleteProfile" onclick="handleDeleteProfile()" ${profileKeys.length === 0 ? 'disabled' : ''}>🗑️</button>
                     </div>
                 </div>
-                <span class="profile-note">💡 Any changes you have made to the budget won't be saved until you "Save Current". Switching to a new file will wipe any unsaved changes.</span>
+                <span class="profile-note">💡 Selecting a file from the dropdown will automatically load it. Any unsaved edits to your active view will be replaced.</span>
             `;
             dataCanvas.appendChild(panel);
         }
@@ -1373,18 +1367,21 @@
             alert(`Profile '${rawName}' saved successfully!`);
         }
 
-        function handleLoadProfile() {
+        function handleSelectAndLoadProfile(selectedName) {
             const selectEl = document.getElementById('profileSelect');
-            const selectedName = selectEl ? selectEl.value : "";
 
-            if (!selectedName) {
-                alert("Please select a profile to load.");
-                return;
-            }
+            if (!selectedName) return;
+
+            // Prevent redundant reloads if selecting the currently active profile when unmodified
+            if (selectedName === activeProfileName && !isProfileModified) return;
 
             if (isProfileModified) {
                 const confirmLoad = window.confirm(`You have unsaved changes in your working budget. Load '${selectedName}' anyway?`);
-                if (!confirmLoad) return;
+                if (!confirmLoad) {
+                    // Reset dropdown selection back to active profile or blank if user cancels
+                    if (selectEl) selectEl.value = activeProfileName || "";
+                    return;
+                }
             }
 
             const profiles = getSavedProfiles();
@@ -1392,6 +1389,7 @@
 
             if (!targetProfile) {
                 alert("Selected profile could not be found.");
+                if (selectEl) selectEl.value = activeProfileName || "";
                 return;
             }
 
