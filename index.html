@@ -435,6 +435,27 @@
             color: #64748b;
         }
 
+        /* Grand Total Summary Card Highlight */
+        .summary-card.grand-total-card {
+            background-color: #0f172a;
+            color: #ffffff;
+            border-color: #1e293b;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+        }
+
+        .summary-card.grand-total-card .summary-card-title {
+            color: #f8fafc;
+            font-size: 1rem;
+        }
+
+        .summary-card.grand-total-card .summary-card-amount {
+            color: #38bdf8;
+            font-size: 1.05rem;
+        }
+
         /* Profile Manager Panel on Summary Tab */
         .profile-manager-panel {
             background-color: #ffffff;
@@ -633,7 +654,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v3.03</span>
+            <span class="version-badge" id="appVersion">v3.04</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -671,7 +692,7 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v3.03";
+        const APP_VERSION = "v3.04";
         const STORAGE_KEY = "scary_budget_v2_91_data";
         const PROFILES_KEY = "scary_budget_saved_profiles";
         const ACTIVE_PROFILE_KEY = "scary_budget_active_profile_meta";
@@ -1233,6 +1254,7 @@
             tabSubtotal.textContent = `${formatNumber(tabDailyTotal)} Shs/day`;
         }
 
+
         function renderSummaryTab() {
             // Render Timeframe Selector Bar
             const controls = document.createElement('div');
@@ -1287,6 +1309,17 @@
                 `;
                 dataCanvas.appendChild(summaryCard);
             }
+
+            // Render Grand Total Highlight Card
+            const grandTotalCard = document.createElement('div');
+            grandTotalCard.className = 'summary-card grand-total-card';
+            grandTotalCard.innerHTML = `
+                <div class="summary-card-header">
+                    <span class="summary-card-title">🧮 Grand Total (${tfUnitLabel})</span>
+                    <span class="summary-card-amount">${formatNumber(calculatedGrandTotal)} Shs / ${tfUnitLabel}</span>
+                </div>
+            `;
+            dataCanvas.appendChild(grandTotalCard);
 
             // Render Profile Manager Panel
             renderProfileManagerPanel();
