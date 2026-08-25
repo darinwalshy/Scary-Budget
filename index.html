@@ -435,6 +435,146 @@
             color: #64748b;
         }
 
+        /* Profile Manager Panel on Summary Tab */
+        .profile-manager-panel {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .profile-manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .profile-manager-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s ease;
+        }
+
+        .status-badge.modified {
+            background-color: #fef3c7;
+            color: #b45309;
+            border-color: #fcd34d;
+        }
+
+        .status-badge.saved {
+            background-color: #dcfce7;
+            color: #15803d;
+            border-color: #86efac;
+        }
+
+        .profile-section-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-section-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .profile-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .profile-input-row input {
+            flex-grow: 1;
+            padding: 8px 10px;
+            font-size: 0.88rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .profile-input-row input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-profile-action {
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .btn-save-profile {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-save-profile:active {
+            background-color: #1d4ed8;
+        }
+
+        .btn-load-profile {
+            background-color: #0f172a;
+            color: #ffffff;
+        }
+
+        .btn-load-profile:disabled, .btn-delete-profile:disabled {
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+            border-color: #cbd5e1;
+        }
+
+        .btn-delete-profile {
+            background-color: #ef4444;
+            color: #ffffff;
+        }
+
+        .profile-select-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .profile-select-row select {
+            flex-grow: 1;
+            padding: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        .profile-note {
+            font-size: 0.72rem;
+            color: #64748b;
+            line-height: 1.3;
+        }
+
         /* Sticky Footer Layout Adjustments */
         .footer-sticky {
           position: fixed;
@@ -498,7 +638,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v2.91</span>
+            <span class="version-badge" id="appVersion">v3.00</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -536,8 +676,10 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v2.91";
+        const APP_VERSION = "v3.00";
         const STORAGE_KEY = "scary_budget_v2_91_data";
+        const PROFILES_KEY = "scary_budget_saved_profiles";
+        const ACTIVE_PROFILE_KEY = "scary_budget_active_profile_meta";
 
         const tabTitleMap = {
             breakfast_snacks: "Breakfast & Snacks",
@@ -558,7 +700,6 @@
 
         const defaultDatabase = {
             breakfast_snacks: [
-                // BREAKFAST CATEGORY
                 { category: "Breakfast", group: "BLACK TEA", item: "Sugar", cost: 0, exampleCost: 1000, days: 2, sharedKey: "sugar" },                
                 { category: "Breakfast", group: "BLACK TEA", item: "Tea leaves", cost: 0, exampleCost: 200, days: 5, sharedKey: "teaLeaves" }, 
                 { category: "Breakfast", group: "BLACK TEA", item: "Ginger", cost: 0, exampleCost: 200, days: 2, sharedKey: "ginger" },
@@ -587,7 +728,6 @@
                 { category: "Breakfast", group: "LEFT-OVERS", item: "Charcoal/Firewood", cost: 0, exampleCost: 2000, days: 1, sharedKey: "charcoal" },
                 { category: "Breakfast", group: "LEFT-OVERS", item: "Match box", cost: 0, exampleCost: 100, days: 7, sharedKey: "matchBox" },
 
-                // SNACKS CATEGORY
                 { category: "Snacks", group: "SNACKS LIST", item: "Bread buns", cost: 0, exampleCost: 500, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "Boiled or fried cassava", cost: 0, exampleCost: 500, days: 1 },
                 { category: "Snacks", group: "SNACKS LIST", item: "Mandazi", cost: 0, exampleCost: 500, days: 1 },
@@ -612,7 +752,6 @@
                 { category: "Snacks", group: "DRINKING", item: "Kachungwa", cost: 0, exampleCost: 1000, days: 1 }
             ],
             lunch_supper: [                            
-                // LUNCH SECTION BLOCK
                 { category: "Lunch", group: "LUNCH FOOD", item: "Cassava flour", cost: 0, exampleCost: 1800, days: 1, sharedKey: "cassavaFlour" },
                 { category: "Lunch", group: "LUNCH FOOD", item: "Posho", cost: 0, exampleCost: 2800, days: 1, sharedKey: "posho" },
                 { category: "Lunch", group: "LUNCH FOOD", item: "Rice", cost: 0, exampleCost: 4500, days: 1, sharedKey: "rice" },
@@ -649,7 +788,6 @@
                 { category: "Lunch", group: "LUNCH SPICES", item: "Garlic", cost: 0, exampleCost: 100, days: 1, sharedKey: "garlic" },
                 { category: "Lunch", group: "LUNCH SPICES", item: "Carrots", cost: 0, exampleCost: 300, days: 1, sharedKey: "carrots" },
 
-                // SUPPER SECTION BLOCK
                 { category: "Supper", group: "SUPPER FOOD", item: "Cassava flour", cost: 0, exampleCost: 1800, days: 1, sharedKey: "cassavaFlour" },
                 { category: "Supper", group: "SUPPER FOOD", item: "Posho", cost: 0, exampleCost: 2800, days: 1, sharedKey: "posho" },
                 { category: "Supper", group: "SUPPER FOOD", item: "Rice", cost: 0, exampleCost: 4500, days: 1, sharedKey: "rice" },
@@ -838,6 +976,10 @@
         let masterDatabase = {};
         let currentTabKey = "breakfast_snacks";
         let summaryTimeframe = 1; // Default multiplier: 1 = Daily, 30 = Monthly, 365 = Yearly
+        
+        // Active Profile State Tracking
+        let activeProfileName = null;
+        let isProfileModified = false;
 
         // DOM elements
         const appVersionEl = document.getElementById('appVersion');
@@ -851,45 +993,58 @@
             return Math.round(num).toLocaleString('en-US');
         }
 
+        // Schema-safe dataset overlay utility
+        function mergeDataset(targetDb, sourceData) {
+            for (const tabKey in targetDb) {
+                if (sourceData && sourceData[tabKey] && Array.isArray(sourceData[tabKey])) {
+                    targetDb[tabKey].forEach(newItem => {
+                        const existingMatch = sourceData[tabKey].find(
+                            oldItem => (newItem.sharedKey && oldItem.sharedKey === newItem.sharedKey) || 
+                                       oldItem.item === newItem.item
+                        );
+
+                        if (existingMatch) {
+                            if (typeof existingMatch.cost === 'number') {
+                                newItem.cost = existingMatch.cost;
+                            }
+                            if (typeof existingMatch.days === 'number' && existingMatch.days > 0) {
+                                newItem.days = existingMatch.days;
+                            }
+                        }
+                    });
+                }
+            }
+            return targetDb;
+        }
+
         function loadDatabase() {
             appVersionEl.textContent = APP_VERSION;
             const stored = localStorage.getItem(STORAGE_KEY);
+            const activeMeta = localStorage.getItem(ACTIVE_PROFILE_KEY);
+
+            if (activeMeta) {
+                try {
+                    const parsedMeta = JSON.parse(activeMeta);
+                    activeProfileName = parsedMeta.name || null;
+                    isProfileModified = !!parsedMeta.isModified;
+                } catch (e) {
+                    console.error("Error loading active profile metadata", e);
+                }
+            }
             
-            // 1. Always start with a fresh deep clone of the latest defaultDatabase structure
+            // Start with a fresh deep clone of defaultDatabase
             masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
         
-            // 2. If user data exists in localStorage, overlay their entered costs and days
+            // Overlay stored working values if they exist
             if (stored) {
                 try {
                     const parsedStored = JSON.parse(stored);
-        
-                    for (const tabKey in masterDatabase) {
-                        if (parsedStored[tabKey] && Array.isArray(parsedStored[tabKey])) {
-                            masterDatabase[tabKey].forEach(newItem => {
-                                // Match existing items by sharedKey first, then fall back to item name
-                                const existingMatch = parsedStored[tabKey].find(
-                                    oldItem => (newItem.sharedKey && oldItem.sharedKey === newItem.sharedKey) || 
-                                               oldItem.item === newItem.item
-                                );
-        
-                                // If user has saved progress for this item, preserve their values
-                                if (existingMatch) {
-                                    if (typeof existingMatch.cost === 'number') {
-                                        newItem.cost = existingMatch.cost;
-                                    }
-                                    if (typeof existingMatch.days === 'number' && existingMatch.days > 0) {
-                                        newItem.days = existingMatch.days;
-                                    }
-                                }
-                            });
-                        }
-                    }
+                    mergeDataset(masterDatabase, parsedStored);
                 } catch (e) {
                     console.error("Error reading stored data, using clean defaults.", e);
                 }
             }
         
-            // 3. Save the merged version back to localStorage and render
             saveDatabase();
             renderCurrentTab();
             calculateGrandTotal();
@@ -897,6 +1052,31 @@
         
         function saveDatabase() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(masterDatabase));
+            localStorage.setItem(ACTIVE_PROFILE_KEY, JSON.stringify({
+                name: activeProfileName,
+                isModified: isProfileModified
+            }));
+        }
+
+        function markStateAsModified() {
+            if (activeProfileName && !isProfileModified) {
+                isProfileModified = true;
+                saveDatabase();
+            }
+        }
+
+        function getSavedProfiles() {
+            try {
+                const stored = localStorage.getItem(PROFILES_KEY);
+                return stored ? JSON.parse(stored) : {};
+            } catch (e) {
+                console.error("Error reading profiles", e);
+                return {};
+            }
+        }
+
+        function saveProfilesToStorage(profiles) {
+            localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
         }
 
         // Shared key resolver: requires cost > 0 to lock other fields
@@ -1106,6 +1286,151 @@
                 `;
                 dataCanvas.appendChild(summaryCard);
             }
+
+            // Render Profile Manager Panel
+            renderProfileManagerPanel();
+        }
+
+        function renderProfileManagerPanel() {
+            const profiles = getSavedProfiles();
+            const profileKeys = Object.keys(profiles);
+
+            // Determine badge appearance
+            let statusBadgeText = "Active View: Unsaved";
+            let statusBadgeClass = "status-badge";
+
+            if (activeProfileName) {
+                if (isProfileModified) {
+                    statusBadgeText = `Loaded: ${activeProfileName} (Unsaved Edits)`;
+                    statusBadgeClass = "status-badge modified";
+                } else {
+                    statusBadgeText = `Loaded: ${activeProfileName}`;
+                    statusBadgeClass = "status-badge saved";
+                }
+            }
+
+            const panel = document.createElement('div');
+            panel.className = 'profile-manager-panel';
+            panel.innerHTML = `
+                <div class="profile-manager-header">
+                    <span class="profile-manager-title">📁 Budget Profiles</span>
+                    <span class="${statusBadgeClass}" id="profileStatusBadge">${statusBadgeText}</span>
+                </div>
+
+                <!-- Save Block -->
+                <div class="profile-section-block">
+                    <span class="profile-section-label">Save Current Budget Snapshot</span>
+                    <div class="profile-input-row">
+                        <input type="text" id="profileNameInput" placeholder="e.g. Baseline 2026, Low Cost" value="${activeProfileName || ''}">
+                        <button class="btn-profile-action btn-save-profile" onclick="handleSaveProfile()">💾 Save Current</button>
+                    </div>
+                </div>
+
+                <!-- Load & Delete Block -->
+                <div class="profile-section-block">
+                    <span class="profile-section-label">Manage Saved Profiles</span>
+                    <div class="profile-select-row">
+                        <select id="profileSelect">
+                            <option value="">${profileKeys.length === 0 ? '-- No saved profiles --' : '-- Select Profile --'}</option>
+                            ${profileKeys.map(k => `<option value="${k}">${k}</option>`).join('')}
+                        </select>
+                        <button class="btn-profile-action btn-load-profile" id="btnLoadProfile" onclick="handleLoadProfile()" ${profileKeys.length === 0 ? 'disabled' : ''}>📂 Load</button>
+                        <button class="btn-profile-action btn-delete-profile" id="btnDeleteProfile" onclick="handleDeleteProfile()" ${profileKeys.length === 0 ? 'disabled' : ''}>🗑️</button>
+                    </div>
+                </div>
+                <span class="profile-note">💡 Edits update your working sandbox automatically. Saving a profile creates a permanent snapshot to switch between setups.</span>
+            `;
+            dataCanvas.appendChild(panel);
+        }
+
+        function handleSaveProfile() {
+            const nameInput = document.getElementById('profileNameInput');
+            const rawName = nameInput ? nameInput.value.trim() : "";
+
+            if (!rawName) {
+                alert("Please enter a profile name to save.");
+                return;
+            }
+
+            const profiles = getSavedProfiles();
+
+            // Strict case-sensitive check for existing profile
+            if (profiles.hasOwnProperty(rawName)) {
+                const confirmOverwrite = window.confirm(`Overwrite existing profile '${rawName}' with current working values?`);
+                if (!confirmOverwrite) return;
+            }
+
+            // Save snapshot clone
+            profiles[rawName] = JSON.parse(JSON.stringify(masterDatabase));
+            saveProfilesToStorage(profiles);
+
+            // Set active profile state
+            activeProfileName = rawName;
+            isProfileModified = false;
+            saveDatabase();
+
+            renderCurrentTab();
+            alert(`Profile '${rawName}' saved successfully!`);
+        }
+
+        function handleLoadProfile() {
+            const selectEl = document.getElementById('profileSelect');
+            const selectedName = selectEl ? selectEl.value : "";
+
+            if (!selectedName) {
+                alert("Please select a profile to load.");
+                return;
+            }
+
+            if (isProfileModified) {
+                const confirmLoad = window.confirm(`You have unsaved changes in your working budget. Load '${selectedName}' anyway?`);
+                if (!confirmLoad) return;
+            }
+
+            const profiles = getSavedProfiles();
+            const targetProfile = profiles[selectedName];
+
+            if (!targetProfile) {
+                alert("Selected profile could not be found.");
+                return;
+            }
+
+            // Re-initialize master database to current default schema and overlay saved dataset
+            masterDatabase = JSON.parse(JSON.stringify(defaultDatabase));
+            mergeDataset(masterDatabase, targetProfile);
+
+            activeProfileName = selectedName;
+            isProfileModified = false;
+
+            saveDatabase();
+            renderCurrentTab();
+            calculateGrandTotal();
+        }
+
+        function handleDeleteProfile() {
+            const selectEl = document.getElementById('profileSelect');
+            const selectedName = selectEl ? selectEl.value : "";
+
+            if (!selectedName) {
+                alert("Please select a profile to delete.");
+                return;
+            }
+
+            const confirmDelete = window.confirm(`Are you sure you want to delete profile '${selectedName}'? This action cannot be undone.`);
+            if (!confirmDelete) return;
+
+            const profiles = getSavedProfiles();
+            delete profiles[selectedName];
+            saveProfilesToStorage(profiles);
+
+            // Reset active state indicator if active profile was deleted
+            if (activeProfileName === selectedName) {
+                activeProfileName = null;
+                isProfileModified = false;
+                saveDatabase();
+            }
+
+            renderCurrentTab();
         }
 
         function handleTimeframeChange(value) {
@@ -1128,8 +1453,6 @@
 
             const dailyCost = (rec.days > 0 && !isLockedByOther) ? (rec.cost / rec.days) : 0;
             
-            // Determine input display values:
-            // If locked, wipe value AND placeholder so the field is completely blank
             const costValue = isLockedByOther ? '' : (rec.cost > 0 ? rec.cost.toLocaleString('en-US') : '');
             const costPlaceholder = isLockedByOther ? '' : (rec.exampleCost ? 'e.g. ' + rec.exampleCost.toLocaleString('en-US') : '0');
             const daysValue = isLockedByOther ? '' : rec.days;
@@ -1178,6 +1501,8 @@
 
             const currentRec = masterDatabase[currentTabKey][index];
             currentRec.cost = numVal;
+            
+            markStateAsModified();
             saveDatabase();
 
             const card = inputEl.closest('.data-card');
@@ -1256,7 +1581,6 @@
                 const dailyOutputEl = card.querySelector('.daily-output');
 
                 if (isLockedByOther) {
-                    // Lock card & blot out all numbers and placeholders
                     card.classList.add('disabled-card');
                     card.classList.remove('active-card');
                     inputs.forEach(input => input.disabled = true);
@@ -1272,7 +1596,6 @@
                         dailyOutputEl.innerHTML = '';
                     }
                 } else if (!sharedOwner) {
-                    // Unlock card & restore original record data and example placeholders
                     card.classList.remove('disabled-card');
                     card.classList.toggle('active-card', rec.cost > 0);
                     inputs.forEach(input => input.disabled = false);
@@ -1299,6 +1622,7 @@
             if (isNaN(numVal) || numVal < 1) numVal = 1;
 
             masterDatabase[currentTabKey][index].days = numVal;
+            markStateAsModified();
             saveDatabase();
 
             const card = inputEl.closest('.data-card');
@@ -1376,14 +1700,15 @@
 
         function confirmFactoryReset() {
           const confirmed = window.confirm(
-            "⚠️ Reset Scary Budget?\n\nThis will wipe all your custom costs and day values and restore factory numbers. This action cannot be undone."
+            "⚠️ Reset Scary Budget?\n\nThis will wipe all your custom costs and day values in your active view and restore factory numbers. (Saved profiles will not be deleted)."
           );
         
           if (confirmed) {
-            // 1. Remove stored user entries
             localStorage.removeItem(STORAGE_KEY);
+            activeProfileName = null;
+            isProfileModified = false;
+            localStorage.removeItem(ACTIVE_PROFILE_KEY);
         
-            // 2. Reload database from fresh defaultDatabase clone & re-render view
             loadDatabase();
           }
         }        
