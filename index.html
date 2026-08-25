@@ -638,7 +638,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v3.00</span>
+            <span class="version-badge" id="appVersion">v3.01</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -1313,13 +1313,13 @@
             panel.className = 'profile-manager-panel';
             panel.innerHTML = `
                 <div class="profile-manager-header">
-                    <span class="profile-manager-title">📁 Budget Profiles</span>
+                    <span class="profile-manager-title">📁 Budget Files</span>
                     <span class="${statusBadgeClass}" id="profileStatusBadge">${statusBadgeText}</span>
                 </div>
 
                 <!-- Save Block -->
                 <div class="profile-section-block">
-                    <span class="profile-section-label">Save Current Budget Snapshot</span>
+                    <span class="profile-section-label">Save Currently Entered Numbers</span>
                     <div class="profile-input-row">
                         <input type="text" id="profileNameInput" placeholder="e.g. Baseline 2026, Low Cost" value="${activeProfileName || ''}">
                         <button class="btn-profile-action btn-save-profile" onclick="handleSaveProfile()">💾 Save Current</button>
@@ -1328,17 +1328,17 @@
 
                 <!-- Load & Delete Block -->
                 <div class="profile-section-block">
-                    <span class="profile-section-label">Manage Saved Profiles</span>
+                    <span class="profile-section-label">Manage Saved Files</span>
                     <div class="profile-select-row">
                         <select id="profileSelect">
-                            <option value="">${profileKeys.length === 0 ? '-- No saved profiles --' : '-- Select Profile --'}</option>
+                            <option value="">${profileKeys.length === 0 ? '-- No saved files --' : '-- Select File --'}</option>
                             ${profileKeys.map(k => `<option value="${k}">${k}</option>`).join('')}
                         </select>
                         <button class="btn-profile-action btn-load-profile" id="btnLoadProfile" onclick="handleLoadProfile()" ${profileKeys.length === 0 ? 'disabled' : ''}>📂 Load</button>
                         <button class="btn-profile-action btn-delete-profile" id="btnDeleteProfile" onclick="handleDeleteProfile()" ${profileKeys.length === 0 ? 'disabled' : ''}>🗑️</button>
                     </div>
                 </div>
-                <span class="profile-note">💡 Edits update your working sandbox automatically. Saving a profile creates a permanent snapshot to switch between setups.</span>
+                <span class="profile-note">💡 Any changes you have made to the budget won't be saved until you "Save Current". Switching to a new file will wipe any unsaved changes.</span>
             `;
             dataCanvas.appendChild(panel);
         }
