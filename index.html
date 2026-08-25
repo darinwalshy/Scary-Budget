@@ -633,7 +633,7 @@
     <header>
         <div class="header-top">
             <h1>Scary Budget</h1>
-            <span class="version-badge" id="appVersion">v3.02</span>
+            <span class="version-badge" id="appVersion">v3.03</span>
         </div>
         <div class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('breakfast_snacks')">☕ Breakfast & Snacks</button>
@@ -671,7 +671,7 @@
     </footer>
     
     <script>
-        const APP_VERSION = "v3.02";
+        const APP_VERSION = "v3.03";
         const STORAGE_KEY = "scary_budget_v2_91_data";
         const PROFILES_KEY = "scary_budget_saved_profiles";
         const ACTIVE_PROFILE_KEY = "scary_budget_active_profile_meta";
@@ -994,8 +994,14 @@
                 if (sourceData && sourceData[tabKey] && Array.isArray(sourceData[tabKey])) {
                     targetDb[tabKey].forEach(newItem => {
                         const existingMatch = sourceData[tabKey].find(
-                            oldItem => (newItem.sharedKey && oldItem.sharedKey === newItem.sharedKey) || 
-                                       oldItem.item === newItem.item
+                            oldItem => {
+                                // Strict Match: Group + Item Name + sharedKey (if present)
+                                const sameGroup = oldItem.group === newItem.group;
+                                const sameItem = oldItem.item === newItem.item;
+                                const sameSharedKey = newItem.sharedKey ? oldItem.sharedKey === newItem.sharedKey : true;
+                                
+                                return sameGroup && sameItem && sameSharedKey;
+                            }
                         );
 
                         if (existingMatch) {
